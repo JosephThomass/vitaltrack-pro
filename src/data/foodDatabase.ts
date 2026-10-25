@@ -1,0 +1,26 @@
+import { FoodItem } from '../types';
+
+export const COMMON_FOOD_DATABASE: FoodItem[] = [
+  { id: 'f-1', name: 'Whole Eggs (Boiled/Scrambled)', servingSize: '2 large eggs (100g)', calories: 143, protein: 13, carbs: 1, fat: 10, category: 'protein' },
+  { id: 'f-2', name: 'Egg Whites', servingSize: '100g (approx 3 whites)', calories: 52, protein: 11, carbs: 0.7, fat: 0.2, category: 'protein' },
+  { id: 'f-3', name: 'Chicken Breast (Grilled/Cooked)', servingSize: '150g cooked', calories: 247, protein: 46, carbs: 0, fat: 5.4, category: 'protein' },
+  { id: 'f-4', name: 'Whey Protein Isolate', servingSize: '1 scoop (30g)', calories: 120, protein: 25, carbs: 2, fat: 1, category: 'protein' },
+  { id: 'f-5', name: 'Greek Yogurt (0% Fat Plain)', servingSize: '200g cup', calories: 130, protein: 20, carbs: 8, fat: 0.5, category: 'protein' },
+  { id: 'f-6', name: 'Rolled Oats (Raw)', servingSize: '60g dry', calories: 234, protein: 8, carbs: 40, fat: 4, category: 'carbs' },
+  { id: 'f-7', name: 'White / Basmati Rice (Cooked)', servingSize: '1 cup cooked (160g)', calories: 210, protein: 4.3, carbs: 45, fat: 0.5, category: 'carbs' },
+  { id: 'f-8', name: 'Brown Rice (Cooked)', servingSize: '1 cup cooked (195g)', calories: 218, protein: 4.5, carbs: 46, fat: 1.6, category: 'carbs' },
+  { id: 'f-9', name: 'Sweet Potato (Baked)', servingSize: '1 medium (150g)', calories: 135, protein: 3, carbs: 31, fat: 0.2, category: 'carbs' },
+  { id: 'f-10', name: 'Banana', servingSize: '1 medium (118g)', calories: 105, protein: 1.3, carbs: 27, fat: 0.3, category: 'fruit' },
+  { id: 'f-11', name: 'Apple (Fresh)', servingSize: '1 medium (180g)', calories: 95, protein: 0.5, carbs: 25, fat: 0.3, category: 'fruit' },
+  { id: 'f-12', name: 'Peanut Butter (Natural)', servingSize: '2 tbsp (32g)', calories: 188, protein: 8, carbs: 6, fat: 16, category: 'fats' },
+  { id: 'f-13', name: 'Almonds (Raw)', servingSize: '1 handful (28g / 23 almonds)', calories: 164, protein: 6, carbs: 6, fat: 14, category: 'fats' },
+  { id: 'f-14', name: 'Extra Virgin Olive Oil', servingSize: '1 tbsp (14ml)', calories: 119, protein: 0, carbs: 0, fat: 13.5, category: 'fats' },
+  { id: 'f-15', name: 'Salmon Fillet (Pan-seared)', servingSize: '150g fillet', calories: 310, protein: 34, carbs: 0, fat: 18, category: 'protein' },
+  { id: 'f-16', name: 'Broccoli (Steamed)', servingSize: '1 cup (150g)', calories: 50, protein: 4, carbs: 10, fat: 0.6, category: 'veggies' },
+  { id: 'f-17', name: 'Mixed Salad Greens', servingSize: '2 cups (100g)', calories: 20, protein: 1.5, carbs: 3, fat: 0.2, category: 'veggies' },
+  { id: 'f-18', name: 'Paneer / Cottage Cheese', servingSize: '100g', calories: 265, protein: 18, carbs: 3.5, fat: 20, category: 'protein' },
+  { id: 'f-19', name: 'Lentils / Dal (Cooked)', servingSize: '1 bowl (200g)', calories: 180, protein: 12, carbs: 28, fat: 2, category: 'protein' },
+  { id: 'f-20', name: 'Tofu (Firm)', servingSize: '150g', calories: 130, protein: 15, carbs: 3, fat: 7, category: 'protein' },
+  { id: 'f-21', name: 'Rice Cakes', servingSize: '2 cakes (18g)', calories: 70, protein: 1.5, carbs: 15, fat: 0.5, category: 'snack' },
+  { id: 'f-22', name: 'Black Coffee (Espresso / Americano)', servingSize: '1 cup (200ml)', calories: 2, protein: 0.2, carbs: 0, fat: 0, category: 'drink' },
+];
