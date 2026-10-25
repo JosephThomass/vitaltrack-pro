@@ -45,6 +45,11 @@ export interface Exercise {
   videoUrl: string; // YouTube embed URL
   videoTitle: string;
   thumbnailUrl?: string;
+  animationType?: string; // e.g., 'bench_press', 'squat', 'overhead_press', etc.
+  gifUrl?: string; // Looping exercise demonstration GIF
+  tempo?: string; // e.g. "3-0-1-0" (3s lower, 0s pause, 1s lift)
+  primaryMuscles?: string[];
+  secondaryMuscles?: string[];
   formCues: string[];
   commonMistakes: string[];
 }

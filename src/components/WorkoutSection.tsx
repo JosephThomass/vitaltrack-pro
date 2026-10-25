@@ -12,11 +12,14 @@ import {
   Award,
   ChevronRight,
   Sparkles,
-  Timer
+  Timer,
+  Zap,
+  Film
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { Exercise, LoggedExercise, LoggedWorkout, WorkoutRoutine } from '../types';
 import { soundManager } from '../utils/audio';
+import { ExerciseMotionPlayer } from './ExerciseMotionPlayer';
 
 interface WorkoutSectionProps {
   routines: WorkoutRoutine[];
@@ -369,14 +372,14 @@ export const WorkoutSection: React.FC<WorkoutSectionProps> = ({
                   </div>
                 </div>
 
-                {/* Video Explanation CTA */}
+                {/* Animation & Video Explanation CTA */}
                 <div className="flex items-center space-x-2">
                   <button
                     onClick={() => setVideoModalExercise(exercise)}
-                    className="flex items-center space-x-2 px-3.5 py-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 dark:bg-[#071510] dark:hover:bg-emerald-950/70 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800/60 text-xs font-bold transition shadow-xs group"
+                    className="flex items-center space-x-2 px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition shadow-md shadow-emerald-600/20 group"
                   >
-                    <Play className="w-3.5 h-3.5 fill-current text-emerald-600 dark:text-emerald-400 group-hover:scale-110 transition-transform" />
-                    <span>Watch Video Form Guide</span>
+                    <Zap className="w-3.5 h-3.5 fill-amber-300 text-amber-300 group-hover:scale-110 transition-transform" />
+                    <span>⚡ Quick Form Animation</span>
                   </button>
                 </div>
               </div>
@@ -517,7 +520,10 @@ export const WorkoutSection: React.FC<WorkoutSectionProps> = ({
             {/* Modal Header */}
             <div className="p-4 px-6 border-b border-slate-100 dark:border-emerald-900/40 flex items-center justify-between">
               <div>
-                <span className="text-[11px] font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">Exercise Form & Video Guide</span>
+                <span className="text-[11px] font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider flex items-center space-x-1">
+                  <Zap className="w-3.5 h-3.5 text-amber-400 fill-current" />
+                  <span>Interactive Form Animation & Biomechanics Guide</span>
+                </span>
                 <h3 className="text-xl font-black text-slate-900 dark:text-white">{videoModalExercise.name}</h3>
               </div>
               <button
@@ -528,15 +534,9 @@ export const WorkoutSection: React.FC<WorkoutSectionProps> = ({
               </button>
             </div>
 
-            {/* Video Player Box */}
-            <div className="relative aspect-video w-full bg-black">
-              <iframe
-                src={`${videoModalExercise.videoUrl}?autoplay=1&rel=0&modestbranding=1`}
-                title={videoModalExercise.videoTitle}
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                className="w-full h-full border-0"
-              />
+            {/* Interactive Animated Motion Player & GIF Engine */}
+            <div className="w-full">
+              <ExerciseMotionPlayer exercise={videoModalExercise} />
             </div>
 
             {/* Form cues & Common Mistakes Tabbed Detail */}

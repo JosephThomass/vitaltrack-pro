@@ -148,7 +148,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
     type: 'workout',
     categoryLabel: profile.workoutLocation === 'home' ? 'Home Workout' : 'Gym Workout',
     title: todayRoutine.title,
-    subtitle: `${todayRoutine.exercises.length} exercises with video guides & rest timer`,
+    subtitle: `${todayRoutine.exercises.length} exercises with fast form animations, GIF loops & rest timer`,
     time: profile.preferredWorkoutTime || '18:00',
     completed: workoutLoggedToday,
     icon: Dumbbell,
@@ -353,7 +353,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
             </div>
 
             <p className="text-xs text-slate-500 dark:text-emerald-300/70 my-2">
-              Time: <strong className="text-slate-800 dark:text-white">{profile.preferredWorkoutTime || '18:00'}</strong> ({todayRoutine.exercises.length} exercises with video guides)
+              Time: <strong className="text-slate-800 dark:text-white">{profile.preferredWorkoutTime || '18:00'}</strong> ({todayRoutine.exercises.length} exercises with form animations & GIFs)
             </p>
           </div>
 
@@ -362,7 +362,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
             className="w-full py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white font-bold text-xs shadow-sm transition flex items-center justify-center space-x-2"
           >
             <Play className="w-3.5 h-3.5 fill-current" />
-            <span>{workoutLoggedToday ? 'View Logged Workout' : 'Start Workout with Videos'}</span>
+            <span>{workoutLoggedToday ? 'View Logged Workout' : 'Start Workout (Fast Animations)'}</span>
           </button>
         </div>
 
