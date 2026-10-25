@@ -17,8 +17,10 @@ import {
   Zap,
   Activity,
   Check,
-  Layers,
-  ChevronRight
+  ChevronRight,
+  Sun,
+  Smile,
+  Heart
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { 
@@ -48,6 +50,7 @@ interface DashboardProps {
   onToggleMed: (medId: string) => void;
   onOpenOnboarding: () => void;
   onSwitchAccount?: () => void;
+  theme?: 'vert-light' | 'vert-dark';
 }
 
 export const Dashboard: React.FC<DashboardProps> = ({
@@ -65,7 +68,10 @@ export const Dashboard: React.FC<DashboardProps> = ({
   onToggleMed,
   onOpenOnboarding,
   onSwitchAccount,
+  theme = 'vert-light',
 }) => {
+  const isDark = theme === 'vert-dark';
+
   const totalWaterConsumed = waterLogs.reduce((s, l) => s + l.amountMl, 0);
   const waterPercent = Math.min(100, Math.round((totalWaterConsumed / targets.targetWaterMl) * 100));
 
@@ -73,6 +79,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
     return sum + slot.items.reduce((s, it) => s + Math.round(it.calories * (it.quantity || 1)), 0);
   }, 0);
   const caloriePercent = Math.min(100, Math.round((totalCaloriesConsumed / targets.targetCalories) * 100));
+  const caloriesRemaining = Math.max(0, targets.targetCalories - totalCaloriesConsumed);
 
   // Determine today's primary routine based on gym/home preference
   const todayRoutine = routines.find(r => 
@@ -92,7 +99,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
     completed: boolean;
     icon: React.ElementType;
     iconColor: string;
-    accentBorder: string;
+    cardBg: string;
     onToggle: () => void;
   }
 
@@ -103,14 +110,14 @@ export const Dashboard: React.FC<DashboardProps> = ({
     scheduleItems.push({
       id: `meal-${slot.id}`,
       type: 'meal',
-      categoryLabel: 'NUTRITION',
+      categoryLabel: 'Meal',
       title: slot.title,
       subtitle: slot.items.map(i => i.name).slice(0, 2).join(', ') || 'Healthy planned nutrition',
       time: slot.scheduledTime,
       completed: slot.isCompleted,
       icon: Utensils,
-      iconColor: 'text-amber-400 bg-amber-500/10 border-amber-500/20',
-      accentBorder: 'border-l-amber-500',
+      iconColor: 'text-amber-500 bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/40',
+      cardBg: isDark ? 'bg-[#0d221a]' : 'bg-white',
       onToggle: () => onToggleMeal(slot.id),
     });
   });
@@ -121,14 +128,16 @@ export const Dashboard: React.FC<DashboardProps> = ({
     scheduleItems.push({
       id: `med-${med.id}`,
       type: 'med',
-      categoryLabel: isHair ? 'HAIR REGIMEN' : 'SUPPLEMENT',
+      categoryLabel: isHair ? 'Hair Care' : 'Supplement',
       title: med.name,
       subtitle: `${med.dosage} • ${med.purpose}`,
       time: med.scheduledTime,
       completed: med.takenToday,
       icon: isHair ? ShieldCheck : Pill,
-      iconColor: isHair ? 'text-purple-400 bg-purple-500/10 border-purple-500/20' : 'text-cyan-400 bg-cyan-500/10 border-cyan-500/20',
-      accentBorder: isHair ? 'border-l-purple-500' : 'border-l-cyan-500',
+      iconColor: isHair 
+        ? 'text-purple-500 bg-purple-50 dark:bg-purple-950/40 border border-purple-200 dark:border-purple-800/40' 
+        : 'text-teal-500 bg-teal-50 dark:bg-teal-950/40 border border-teal-200 dark:border-teal-800/40',
+      cardBg: isDark ? 'bg-[#0d221a]' : 'bg-white',
       onToggle: () => onToggleMed(med.id),
     });
   });
@@ -137,14 +146,14 @@ export const Dashboard: React.FC<DashboardProps> = ({
   scheduleItems.push({
     id: 'workout-today',
     type: 'workout',
-    categoryLabel: profile.workoutLocation === 'home' ? 'HOME WORKOUT' : 'GYM WORKOUT',
+    categoryLabel: profile.workoutLocation === 'home' ? 'Home Workout' : 'Gym Workout',
     title: todayRoutine.title,
     subtitle: `${todayRoutine.exercises.length} exercises with video guides & rest timer`,
     time: profile.preferredWorkoutTime || '18:00',
     completed: workoutLoggedToday,
     icon: Dumbbell,
-    iconColor: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20',
-    accentBorder: 'border-l-emerald-500',
+    iconColor: 'text-emerald-500 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/40',
+    cardBg: isDark ? 'bg-[#0d221a]' : 'bg-white',
     onToggle: () => onNavigateTab('workouts'),
   });
 
@@ -164,262 +173,218 @@ export const Dashboard: React.FC<DashboardProps> = ({
     return 'Good evening';
   };
 
-  // Concentric Multi-Ring Activity SVG Calculations
-  // Ring 1 (Tasks / Regimen): radius = 54, stroke = 7
-  const r1 = 54;
-  const c1 = 2 * Math.PI * r1;
-  const offset1 = c1 - (taskProgressPercent / 100) * c1;
-
-  // Ring 2 (Nutrition Calories): radius = 42, stroke = 7
-  const r2 = 42;
-  const c2 = 2 * Math.PI * r2;
-  const offset2 = c2 - (caloriePercent / 100) * c2;
-
-  // Ring 3 (Hydration): radius = 30, stroke = 7
-  const r3 = 30;
-  const c3 = 2 * Math.PI * r3;
-  const offset3 = c3 - (waterPercent / 100) * c3;
-
   return (
-    <div className="space-y-6 max-w-6xl mx-auto">
-      {/* 1. Executive Performance Command Banner */}
-      <div className="bg-zinc-900/90 border border-zinc-800 rounded-3xl p-6 sm:p-7 shadow-2xl relative overflow-hidden">
-        {/* Subtle background ambient glows */}
-        <div className="absolute top-0 right-0 w-80 h-80 bg-emerald-500/5 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 left-0 w-80 h-80 bg-cyan-500/5 rounded-full blur-3xl pointer-events-none" />
-
-        <div className="relative flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+    <div className="space-y-6 max-w-4xl mx-auto pb-12">
+      {/* 1. Friendly Vert Greeting & Daily Progress Card */}
+      <div className={`p-6 sm:p-7 rounded-3xl border transition-all ${
+        isDark 
+          ? 'bg-[#0d221a] border-emerald-900/50 shadow-lg text-emerald-50' 
+          : 'bg-white border-emerald-100 shadow-sm text-slate-900'
+      }`}>
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
           <div className="space-y-2">
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 font-mono text-[10px] tracking-wider uppercase font-bold border border-emerald-500/30">
-                {profile.workoutLocation === 'home' ? '🏠 Home Routine Active' : '🏋️ Gym Routine Active'}
+            <div className="flex items-center space-x-2">
+              <span className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/20">
+                <span>🌿</span>
+                <span>{profile.workoutLocation === 'home' ? 'Home Workout Plan' : 'Gym Workout Plan'}</span>
               </span>
-              <span className="text-zinc-500 text-xs">•</span>
-              <span className="text-zinc-400 text-xs font-mono">
-                {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })}
+              <span className="text-xs text-slate-400 dark:text-emerald-300/60 font-medium">
+                {new Date().toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}
               </span>
-              {profile.phoneNumber && (
-                <span className="text-zinc-500 text-[11px] font-mono">
-                  (Account: {profile.phoneNumber})
-                </span>
-              )}
             </div>
 
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+            <h1 className="text-2xl sm:text-3xl font-black tracking-tight">
               {getGreeting()}, {profile.name}! 👋
             </h1>
 
-            <p className="text-zinc-400 text-xs sm:text-sm max-w-xl leading-relaxed">
-              Today you have <strong className="text-white font-mono">{completedTasks} of {totalTasks}</strong> daily targets completed. Your energy intake, hydration, and hair follicle protocol are synchronized.
+            <p className={`text-sm leading-relaxed max-w-md ${isDark ? 'text-emerald-200/80' : 'text-slate-600'}`}>
+              You have completed <strong className="text-emerald-600 dark:text-emerald-400 font-extrabold">{completedTasks} of {totalTasks}</strong> daily habits. Keep the momentum going!
             </p>
 
-            {/* Biometric Badges Row */}
-            <div className="pt-2 flex flex-wrap items-center gap-2 text-xs font-mono">
-              <div className="px-3 py-1.5 rounded-xl bg-zinc-950 border border-zinc-800 text-zinc-300 flex items-center space-x-1.5">
-                <span className="text-zinc-500">Weight:</span>
-                <strong className="text-white">{profile.weightKg} kg</strong>
-              </div>
+            {/* Quick Goals Pill Row */}
+            <div className="pt-2 flex flex-wrap items-center gap-2 text-xs font-semibold">
+              <span className={`px-3 py-1.5 rounded-xl border ${
+                isDark ? 'bg-[#071510] border-emerald-900/60 text-emerald-100' : 'bg-slate-50 border-slate-200 text-slate-700'
+              }`}>
+                Current: <strong className="text-emerald-600 dark:text-emerald-400">{profile.weightKg} kg</strong>
+              </span>
 
-              <div className="px-3 py-1.5 rounded-xl bg-zinc-950 border border-emerald-500/30 text-emerald-400 flex items-center space-x-1.5">
-                <span className="text-zinc-500">Goal Target:</span>
-                <strong>{profile.goalWeightKg || profile.systemRecommendedWeightKg || profile.weightKg} kg</strong>
-              </div>
+              <span className={`px-3 py-1.5 rounded-xl border ${
+                isDark ? 'bg-[#071510] border-emerald-900/60 text-emerald-100' : 'bg-slate-50 border-slate-200 text-slate-700'
+              }`}>
+                Target Goal: <strong className="text-teal-600 dark:text-teal-400">{profile.goalWeightKg || profile.systemRecommendedWeightKg || profile.weightKg} kg</strong>
+              </span>
 
-              <div className="px-3 py-1.5 rounded-xl bg-zinc-950 border border-zinc-800 text-cyan-400 flex items-center space-x-1.5">
-                <span className="text-zinc-500">BMI:</span>
-                <strong>{profile.bmi || 23.5} ({profile.bmiCategory || 'Normal'})</strong>
-              </div>
-
-              <div className="px-3 py-1.5 rounded-xl bg-zinc-950 border border-purple-500/30 text-purple-400 flex items-center space-x-1.5">
-                <ShieldCheck className="w-3.5 h-3.5 text-purple-400" />
-                <span>Hair Stack: {profile.hasHairLossRegimen ? 'Active' : 'Off'}</span>
-              </div>
+              <span className={`px-3 py-1.5 rounded-xl border ${
+                isDark ? 'bg-[#071510] border-emerald-900/60 text-emerald-100' : 'bg-slate-50 border-slate-200 text-slate-700'
+              }`}>
+                BMI: <strong>{profile.bmi || 23.5} ({profile.bmiCategory || 'Normal'})</strong>
+              </span>
             </div>
           </div>
 
-          {/* Multi-Ring Activity Gauge (Apple Fitness Style) */}
-          <div className="flex items-center space-x-6 bg-zinc-950/80 p-5 rounded-3xl border border-zinc-800/80 shadow-inner shrink-0 self-center lg:self-auto">
-            {/* SVG Concentric Rings */}
-            <div className="relative w-32 h-32 flex items-center justify-center">
-              <svg className="w-full h-full -rotate-90 transform" viewBox="0 0 130 130">
-                {/* Background tracks */}
-                <circle cx="65" cy="65" r={r1} stroke="#18181b" strokeWidth="8" fill="none" />
-                <circle cx="65" cy="65" r={r2} stroke="#18181b" strokeWidth="8" fill="none" />
-                <circle cx="65" cy="65" r={r3} stroke="#18181b" strokeWidth="8" fill="none" />
-
-                {/* Ring 1: Tasks / Regimen (Emerald) */}
-                <circle
-                  cx="65"
-                  cy="65"
-                  r={r1}
-                  stroke="#10b981"
-                  strokeWidth="8"
-                  strokeLinecap="round"
+          {/* Clean Big Progress Circle */}
+          <div className={`flex flex-col items-center justify-center p-5 rounded-2xl border shrink-0 ${
+            isDark ? 'bg-[#071510] border-emerald-900/50' : 'bg-emerald-50/60 border-emerald-100'
+          }`}>
+            <div className="relative w-20 h-20 rounded-full flex items-center justify-center">
+              <svg className="w-full h-full -rotate-90 transform" viewBox="0 0 36 36">
+                <path
+                  className={`${isDark ? 'text-emerald-950' : 'text-emerald-100'}`}
+                  strokeWidth="3.5"
+                  stroke="currentColor"
                   fill="none"
-                  strokeDasharray={c1}
-                  strokeDashoffset={offset1}
-                  className="transition-all duration-1000 ease-out"
+                  d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                 />
-
-                {/* Ring 2: Nutrition / Calories (Amber) */}
-                <circle
-                  cx="65"
-                  cy="65"
-                  r={r2}
-                  stroke="#f59e0b"
-                  strokeWidth="8"
+                <path
+                  className="text-emerald-500 transition-all duration-700 ease-out"
+                  strokeDasharray={`${taskProgressPercent}, 100`}
+                  strokeWidth="3.5"
                   strokeLinecap="round"
+                  stroke="currentColor"
                   fill="none"
-                  strokeDasharray={c2}
-                  strokeDashoffset={offset2}
-                  className="transition-all duration-1000 ease-out"
-                />
-
-                {/* Ring 3: Hydration (Cyan) */}
-                <circle
-                  cx="65"
-                  cy="65"
-                  r={r3}
-                  stroke="#06b6d4"
-                  strokeWidth="8"
-                  strokeLinecap="round"
-                  fill="none"
-                  strokeDasharray={c3}
-                  strokeDashoffset={offset3}
-                  className="transition-all duration-1000 ease-out"
+                  d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                 />
               </svg>
-
-              {/* Center Readiness Metric */}
-              <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
-                <span className="text-lg font-black text-white font-mono leading-none">
-                  {report.healthScore}%
+              <div className="absolute inset-0 flex flex-col items-center justify-center">
+                <span className="text-lg font-black text-emerald-600 dark:text-emerald-400">
+                  {taskProgressPercent}%
                 </span>
-                <span className="text-[9px] uppercase tracking-wider text-emerald-400 font-bold mt-0.5">
-                  OPTIMAL
+                <span className="text-[9px] font-bold uppercase tracking-wider text-slate-400 dark:text-emerald-300/60">
+                  Done
                 </span>
               </div>
             </div>
-
-            {/* Legend & Summary */}
-            <div className="space-y-2 text-xs">
-              <div className="flex items-center space-x-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
-                <span className="text-zinc-400">Schedule:</span>
-                <strong className="text-white font-mono">{taskProgressPercent}%</strong>
-              </div>
-
-              <div className="flex items-center space-x-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-amber-500" />
-                <span className="text-zinc-400">Calories:</span>
-                <strong className="text-white font-mono">{caloriePercent}%</strong>
-              </div>
-
-              <div className="flex items-center space-x-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-cyan-500" />
-                <span className="text-zinc-400">Hydration:</span>
-                <strong className="text-white font-mono">{waterPercent}%</strong>
-              </div>
-            </div>
+            <p className="text-xs font-bold text-slate-600 dark:text-emerald-200 mt-2">
+              {totalTasks - completedTasks} remaining
+            </p>
           </div>
+        </div>
+
+        {/* Progress Bar */}
+        <div className={`w-full h-2.5 rounded-full mt-6 overflow-hidden ${isDark ? 'bg-[#071510]' : 'bg-slate-100'}`}>
+          <div 
+            className="h-full bg-gradient-to-r from-emerald-600 via-emerald-500 to-teal-400 rounded-full transition-all duration-700"
+            style={{ width: `${taskProgressPercent}%` }}
+          />
         </div>
       </div>
 
-      {/* 2. Quick Performance Metrics Row */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {/* Metric 1: Hydration Station with Quick Add */}
-        <div className="bg-zinc-900/90 border border-zinc-800 rounded-3xl p-5 shadow-xl flex flex-col justify-between">
+      {/* 2. Today's Key Habits: Big, Friendly Action Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        {/* Card 1: Hydration Tracker */}
+        <div className={`p-5 rounded-3xl border flex flex-col justify-between transition-all ${
+          isDark 
+            ? 'bg-[#0d221a] border-emerald-900/50 text-emerald-50' 
+            : 'bg-white border-emerald-100 shadow-sm text-slate-900'
+        }`}>
           <div>
-            <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center justify-between mb-3">
               <div className="flex items-center space-x-2.5">
-                <div className="w-8 h-8 rounded-xl bg-cyan-500/10 text-cyan-400 flex items-center justify-center border border-cyan-500/20">
-                  <Droplet className="w-4 h-4" />
+                <div className="w-9 h-9 rounded-2xl bg-cyan-50 dark:bg-cyan-950/40 text-cyan-500 border border-cyan-200 dark:border-cyan-800/40 flex items-center justify-center">
+                  <Droplet className="w-5 h-5 fill-current" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-sm text-white">Hydration Station</h3>
-                  <span className="text-xs text-zinc-400 font-mono">
+                  <h3 className="font-bold text-sm">Water Tracker</h3>
+                  <p className="text-xs text-slate-500 dark:text-emerald-300/60">
                     {totalWaterConsumed} / {targets.targetWaterMl} ml
-                  </span>
+                  </p>
                 </div>
               </div>
-              <span className="text-xs font-mono font-bold text-cyan-400 bg-cyan-500/10 px-2 py-0.5 rounded-lg border border-cyan-500/20">
+              <span className="text-xs font-black text-cyan-600 dark:text-cyan-400 bg-cyan-50 dark:bg-cyan-950/40 px-2 py-0.5 rounded-full border border-cyan-200 dark:border-cyan-800/40">
                 {waterPercent}%
               </span>
             </div>
 
-            <div className="w-full h-1.5 bg-zinc-950 rounded-full my-3 overflow-hidden">
+            <div className={`w-full h-2 rounded-full mb-4 overflow-hidden ${isDark ? 'bg-[#071510]' : 'bg-slate-100'}`}>
               <div 
-                className="h-full bg-gradient-to-r from-cyan-500 to-blue-400 rounded-full transition-all duration-500"
+                className="h-full bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full transition-all duration-500"
                 style={{ width: `${waterPercent}%` }}
               />
             </div>
           </div>
 
-          <div className="flex items-center space-x-2 pt-2">
+          <div className="flex items-center space-x-2 pt-1">
             <button
               onClick={() => onQuickAddWater(250)}
-              className="flex-1 py-2 rounded-xl bg-zinc-950 hover:bg-zinc-800 border border-zinc-800 hover:border-cyan-500/40 text-cyan-300 font-semibold text-xs transition"
+              className={`flex-1 py-2.5 rounded-xl font-bold text-xs transition border ${
+                isDark
+                  ? 'bg-[#071510] border-emerald-900/60 text-cyan-300 hover:bg-cyan-950/40'
+                  : 'bg-cyan-50 border-cyan-200 text-cyan-800 hover:bg-cyan-100'
+              }`}
             >
-              + 250ml Glass
+              + 250ml
             </button>
             <button
               onClick={() => onQuickAddWater(500)}
-              className="flex-1 py-2 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-zinc-950 font-bold text-xs transition shadow-md shadow-cyan-500/20"
+              className="flex-1 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-white font-bold text-xs transition shadow-sm"
             >
-              + 500ml Bottle
+              + 500ml
             </button>
           </div>
         </div>
 
-        {/* Metric 2: Today's Workout Command */}
-        <div className="bg-zinc-900/90 border border-zinc-800 rounded-3xl p-5 shadow-xl flex flex-col justify-between">
+        {/* Card 2: Today's Workout */}
+        <div className={`p-5 rounded-3xl border flex flex-col justify-between transition-all ${
+          isDark 
+            ? 'bg-[#0d221a] border-emerald-900/50 text-emerald-50' 
+            : 'bg-white border-emerald-100 shadow-sm text-slate-900'
+        }`}>
           <div>
             <div className="flex items-center justify-between mb-2">
               <div className="flex items-center space-x-2.5">
-                <div className="w-8 h-8 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center border border-emerald-500/20">
-                  <Dumbbell className="w-4 h-4" />
+                <div className="w-9 h-9 rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/40 flex items-center justify-center">
+                  <Dumbbell className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-sm text-white">Daily Workout Routine</h3>
-                  <p className="text-xs text-zinc-400 truncate max-w-[170px]">{todayRoutine.title.split('(')[0].trim()}</p>
+                  <h3 className="font-bold text-sm">Today&apos;s Workout</h3>
+                  <p className="text-xs text-slate-500 dark:text-emerald-300/60 truncate max-w-[150px]">
+                    {todayRoutine.title.split('(')[0].trim()}
+                  </p>
                 </div>
               </div>
-              <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full font-mono ${
-                workoutLoggedToday ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-zinc-800 text-zinc-400'
+              <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                workoutLoggedToday 
+                  ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-500/20 dark:text-emerald-300' 
+                  : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300'
               }`}>
-                {workoutLoggedToday ? 'Completed' : 'Pending'}
+                {workoutLoggedToday ? 'Done 🔥' : 'Pending'}
               </span>
             </div>
 
-            <p className="text-xs text-zinc-400 my-2 leading-relaxed">
-              Target Time: <strong className="text-zinc-200 font-mono">{profile.preferredWorkoutTime || '18:00'}</strong> ({todayRoutine.exercises.length} exercises with video guides)
+            <p className="text-xs text-slate-500 dark:text-emerald-300/70 my-2">
+              Time: <strong className="text-slate-800 dark:text-white">{profile.preferredWorkoutTime || '18:00'}</strong> ({todayRoutine.exercises.length} exercises with video guides)
             </p>
           </div>
 
           <button
             onClick={() => onNavigateTab('workouts')}
-            className="w-full py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-400 hover:from-emerald-400 hover:to-teal-300 text-zinc-950 font-bold text-xs shadow-md transition flex items-center justify-center space-x-2"
+            className="w-full py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white font-bold text-xs shadow-sm transition flex items-center justify-center space-x-2"
           >
             <Play className="w-3.5 h-3.5 fill-current" />
-            <span>{workoutLoggedToday ? 'Review Workout Log' : 'Launch Workout HUD & Videos'}</span>
+            <span>{workoutLoggedToday ? 'View Logged Workout' : 'Start Workout with Videos'}</span>
           </button>
         </div>
 
-        {/* Metric 3: Hair Loss & Supplement Protocol */}
-        <div className="bg-zinc-900/90 border border-zinc-800 rounded-3xl p-5 shadow-xl flex flex-col justify-between">
+        {/* Card 3: Hair Care & Supplements */}
+        <div className={`p-5 rounded-3xl border flex flex-col justify-between transition-all ${
+          isDark 
+            ? 'bg-[#0d221a] border-emerald-900/50 text-emerald-50' 
+            : 'bg-white border-emerald-100 shadow-sm text-slate-900'
+        }`}>
           <div>
             <div className="flex items-center justify-between mb-2">
               <div className="flex items-center space-x-2.5">
-                <div className="w-8 h-8 rounded-xl bg-purple-500/10 text-purple-400 flex items-center justify-center border border-purple-500/20">
-                  <ShieldCheck className="w-4 h-4" />
+                <div className="w-9 h-9 rounded-2xl bg-purple-50 dark:bg-purple-950/40 text-purple-600 dark:text-purple-400 border border-purple-200 dark:border-purple-800/40 flex items-center justify-center">
+                  <ShieldCheck className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-sm text-white">Hair Regrowth Stack</h3>
-                  <p className="text-xs text-zinc-400">Minoxidil & DHT Barrier</p>
+                  <h3 className="font-bold text-sm">Hair Care & Meds</h3>
+                  <p className="text-xs text-slate-500 dark:text-emerald-300/60">Minoxidil & Vitamins</p>
                 </div>
               </div>
-              <span className="text-xs font-mono font-bold text-purple-400 bg-purple-500/10 px-2 py-0.5 rounded-lg border border-purple-500/20">
-                14-Day Streak 🔥
+              <span className="text-xs font-bold text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-950/40 px-2 py-0.5 rounded-full border border-purple-200 dark:border-purple-800/40">
+                14d streak 🔥
               </span>
             </div>
 
@@ -430,12 +395,14 @@ export const Dashboard: React.FC<DashboardProps> = ({
                   onClick={() => onToggleMed(m.id)}
                   className={`p-2 rounded-xl text-left border transition ${
                     m.takenToday
-                      ? 'bg-purple-950/30 border-purple-500/50 text-purple-300'
-                      : 'bg-zinc-950 border-zinc-800 text-zinc-400 hover:bg-zinc-800'
+                      ? 'bg-purple-50 border-purple-300 text-purple-800 dark:bg-purple-950/40 dark:border-purple-700 dark:text-purple-300'
+                      : isDark
+                        ? 'bg-[#071510] border-emerald-900/50 text-slate-300 hover:bg-emerald-900/30'
+                        : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-purple-50/50'
                   }`}
                 >
-                  <p className="text-[11px] font-bold truncate text-white">{m.name.split('(')[0]}</p>
-                  <p className="text-[10px] text-zinc-500">{m.takenToday ? 'Taken ✓' : `Due ${m.scheduledTime}`}</p>
+                  <p className="text-[11px] font-bold truncate">{m.name.split('(')[0]}</p>
+                  <p className="text-[10px] text-slate-500 dark:text-emerald-300/60">{m.takenToday ? 'Taken ✓' : `Due ${m.scheduledTime}`}</p>
                 </button>
               ))}
             </div>
@@ -443,79 +410,158 @@ export const Dashboard: React.FC<DashboardProps> = ({
 
           <button
             onClick={() => onNavigateTab('regimen')}
-            className="w-full py-2 rounded-xl bg-zinc-950 hover:bg-zinc-800 border border-zinc-800 hover:border-purple-500/40 text-purple-300 font-semibold text-xs transition flex items-center justify-center space-x-1.5"
+            className={`w-full py-2.5 rounded-xl font-bold text-xs transition border flex items-center justify-center space-x-1.5 ${
+              isDark
+                ? 'bg-[#071510] border-emerald-900/60 text-purple-300 hover:bg-purple-950/30'
+                : 'bg-purple-50 border-purple-200 text-purple-800 hover:bg-purple-100'
+            }`}
           >
-            <span>Full Regimen & Biometrics</span>
+            <span>Full Routine & Goals</span>
             <ChevronRight className="w-3.5 h-3.5" />
           </button>
         </div>
       </div>
 
-      {/* 3. Today's Chronological Schedule & Interactive Checklist */}
-      <div className="bg-zinc-900/90 border border-zinc-800 rounded-3xl p-5 sm:p-7 shadow-2xl space-y-4">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-zinc-800/80 pb-4">
+      {/* 3. Today's Calories & Meals Overview Card */}
+      <div className={`p-6 rounded-3xl border transition-all ${
+        isDark 
+          ? 'bg-[#0d221a] border-emerald-900/50 text-emerald-50' 
+          : 'bg-white border-emerald-100 shadow-sm text-slate-900'
+      }`}>
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
           <div>
-            <h2 className="text-lg font-bold text-white flex items-center space-x-2">
-              <Clock className="w-5 h-5 text-emerald-400" />
-              <span>Today&apos;s Chronological Schedule</span>
-            </h2>
-            <p className="text-xs text-zinc-400 mt-0.5">
-              Scheduled nutrition, supplements, and workout aligned to your preferred time slot.
+            <h3 className="text-base font-bold flex items-center space-x-2">
+              <Utensils className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+              <span>Today&apos;s Nutrition & Calories</span>
+            </h3>
+            <p className="text-xs text-slate-500 dark:text-emerald-300/60 mt-0.5">
+              Target calculated using your BMI, weight goal, and gym activity.
             </p>
           </div>
 
           <div className="flex items-center space-x-2">
-            <span className="text-xs font-mono font-bold text-emerald-400 bg-zinc-950 px-3 py-1.5 rounded-xl border border-zinc-800">
-              {completedTasks} / {totalTasks} Completed
+            <span className="text-xs font-bold px-3 py-1 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800/40">
+              {caloriesRemaining} kcal remaining
             </span>
+            <button
+              onClick={() => onNavigateTab('diet')}
+              className="text-xs font-bold text-emerald-600 dark:text-emerald-400 hover:underline"
+            >
+              Log Food →
+            </button>
           </div>
         </div>
 
+        {/* Calorie Bar */}
+        <div className="space-y-1.5 mb-4">
+          <div className="flex justify-between text-xs font-bold text-slate-600 dark:text-emerald-200">
+            <span>Consumed: <strong className="text-emerald-600 dark:text-emerald-400">{totalCaloriesConsumed} kcal</strong></span>
+            <span>Target: <strong className="text-slate-800 dark:text-white">{targets.targetCalories} kcal</strong></span>
+          </div>
+          <div className={`w-full h-3 rounded-full overflow-hidden ${isDark ? 'bg-[#071510]' : 'bg-slate-100'}`}>
+            <div 
+              className="h-full bg-gradient-to-r from-emerald-500 via-teal-400 to-cyan-400 rounded-full transition-all duration-500"
+              style={{ width: `${caloriePercent}%` }}
+            />
+          </div>
+        </div>
+
+        {/* Macros Row */}
+        <div className="grid grid-cols-3 gap-3 text-center text-xs font-bold">
+          <div className={`p-3 rounded-2xl border ${isDark ? 'bg-[#071510] border-emerald-900/50' : 'bg-slate-50 border-slate-200'}`}>
+            <span className="text-slate-500 dark:text-emerald-300/60 text-[10px] block uppercase font-bold">Protein Target</span>
+            <span className="text-base text-emerald-600 dark:text-emerald-400 font-extrabold">{targets.targetProteinGrams}g</span>
+          </div>
+
+          <div className={`p-3 rounded-2xl border ${isDark ? 'bg-[#071510] border-emerald-900/50' : 'bg-slate-50 border-slate-200'}`}>
+            <span className="text-slate-500 dark:text-emerald-300/60 text-[10px] block uppercase font-bold">Carbs Target</span>
+            <span className="text-base text-teal-600 dark:text-teal-400 font-extrabold">{targets.targetCarbsGrams}g</span>
+          </div>
+
+          <div className={`p-3 rounded-2xl border ${isDark ? 'bg-[#071510] border-emerald-900/50' : 'bg-slate-50 border-slate-200'}`}>
+            <span className="text-slate-500 dark:text-emerald-300/60 text-[10px] block uppercase font-bold">Fats Target</span>
+            <span className="text-base text-cyan-600 dark:text-cyan-400 font-extrabold">{targets.targetFatGrams}g</span>
+          </div>
+        </div>
+      </div>
+
+      {/* 4. Today's Full Schedule (Vertical Timeline) */}
+      <div className={`p-6 sm:p-7 rounded-3xl border transition-all space-y-4 ${
+        isDark 
+          ? 'bg-[#0d221a] border-emerald-900/50 text-emerald-50' 
+          : 'bg-white border-emerald-100 shadow-sm text-slate-900'
+      }`}>
+        <div className="flex items-center justify-between border-b pb-4 dark:border-emerald-900/40 border-slate-100">
+          <div>
+            <h2 className="text-lg font-black flex items-center space-x-2">
+              <Clock className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+              <span>Today&apos;s Daily Checklist</span>
+            </h2>
+            <p className="text-xs text-slate-500 dark:text-emerald-300/60 mt-0.5">
+              Tap any item to mark it done. Meals, medications, and workout organized in sequence.
+            </p>
+          </div>
+
+          <span className="text-xs font-extrabold px-3 py-1.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800/40">
+            {completedTasks} / {totalTasks} Completed
+          </span>
+        </div>
+
         {/* Schedule List */}
-        <div className="space-y-2.5 pt-1">
+        <div className="space-y-3 pt-1">
           {scheduleItems.map((item) => {
             const Icon = item.icon;
             return (
               <div
                 key={item.id}
-                className={`p-3.5 sm:p-4 rounded-2xl border transition-all flex items-center justify-between gap-3 ${
+                className={`p-4 rounded-2xl border transition-all flex items-center justify-between gap-3 ${
                   item.completed
-                    ? 'bg-zinc-950/90 border-emerald-500/30 text-emerald-200 shadow-sm'
-                    : `bg-zinc-950/60 border-zinc-800/90 hover:border-zinc-700 ${item.accentBorder} border-l-4`
+                    ? isDark
+                      ? 'bg-emerald-950/20 border-emerald-800/40 text-emerald-300/80'
+                      : 'bg-emerald-50/50 border-emerald-200 text-emerald-900'
+                    : isDark
+                      ? 'bg-[#071510] border-emerald-900/40 hover:border-emerald-800/60'
+                      : 'bg-slate-50 border-slate-200 hover:border-emerald-300'
                 }`}
               >
                 <div className="flex items-center space-x-3.5 min-w-0">
-                  {/* High-Tech Time Tag */}
-                  <span className="font-mono text-xs font-bold text-zinc-300 bg-zinc-900 px-2.5 py-1 rounded-lg border border-zinc-800 shrink-0">
+                  {/* Time Badge */}
+                  <span className={`px-2.5 py-1 rounded-lg text-xs font-bold border shrink-0 ${
+                    isDark 
+                      ? 'bg-[#0d221a] border-emerald-900/50 text-emerald-300' 
+                      : 'bg-white border-slate-200 text-slate-700 shadow-xs'
+                  }`}>
                     {item.time}
                   </span>
 
                   {/* Icon */}
-                  <div className={`w-8 h-8 rounded-xl border flex items-center justify-center shrink-0 ${item.iconColor}`}>
+                  <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${item.iconColor}`}>
                     <Icon className="w-4 h-4" />
                   </div>
 
-                  {/* Item Details */}
+                  {/* Title & Subtitle */}
                   <div className="min-w-0">
                     <div className="flex items-center space-x-2">
-                      <span className="text-[9px] font-mono uppercase tracking-wider text-zinc-500 font-bold">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-emerald-300/60">
                         {item.categoryLabel}
                       </span>
                     </div>
-                    <h4 className={`text-sm font-bold truncate ${item.completed ? 'text-zinc-400 line-through' : 'text-white'}`}>
+                    <h4 className={`text-sm font-bold truncate ${item.completed ? 'line-through opacity-70' : ''}`}>
                       {item.title}
                     </h4>
-                    <p className="text-[11px] text-zinc-400 truncate">{item.subtitle}</p>
+                    <p className="text-xs text-slate-500 dark:text-emerald-300/60 truncate">{item.subtitle}</p>
                   </div>
                 </div>
 
-                {/* Tactile Completion Action */}
+                {/* Tactile Round Check Button */}
                 <button
                   onClick={item.onToggle}
                   className={`w-9 h-9 rounded-xl flex items-center justify-center transition-all shrink-0 ${
                     item.completed
-                      ? 'bg-emerald-500 text-zinc-950 font-bold shadow-md shadow-emerald-500/30'
-                      : 'bg-zinc-800 text-zinc-400 hover:bg-zinc-700 hover:text-white border border-zinc-700'
+                      ? 'bg-emerald-500 text-white font-bold shadow-md shadow-emerald-500/30'
+                      : isDark
+                        ? 'bg-[#0d221a] text-slate-400 hover:text-white border border-emerald-900/50'
+                        : 'bg-white text-slate-400 hover:text-emerald-600 border border-slate-200 shadow-xs'
                   }`}
                   title={item.completed ? 'Completed' : 'Tap to mark completed'}
                 >

@@ -76,6 +76,25 @@ export function App() {
   const [notifications, setNotifications] = useState<AppNotification[]>([]);
   const [notificationsEnabled, setNotificationsEnabled] = useState<boolean>(false);
 
+  // Vert Theme State: 'vert-light' (default, fresh green) or 'vert-dark' (forest green)
+  const [theme, setTheme] = useState<'vert-light' | 'vert-dark'>(() => {
+    const saved = localStorage.getItem('vitaltrack_theme');
+    return saved === 'vert-dark' ? 'vert-dark' : 'vert-light';
+  });
+
+  useEffect(() => {
+    localStorage.setItem('vitaltrack_theme', theme);
+    if (theme === 'vert-dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [theme]);
+
+  const handleToggleTheme = () => {
+    setTheme((prev) => (prev === 'vert-light' ? 'vert-dark' : 'vert-light'));
+  };
+
   // App Data State: Check userDatabase for active phone first
   const [profile, setProfile] = useState<UserProfile>(() => {
     const curPhone = userDatabase.getCurrentPhone();
@@ -373,7 +392,11 @@ export function App() {
 
 
   return (
-    <div className="min-h-screen bg-[#09090b] text-zinc-100 flex flex-col antialiased selection:bg-emerald-500 selection:text-black">
+    <div className={`min-h-screen flex flex-col antialiased transition-colors duration-200 ${
+      theme === 'vert-dark' 
+        ? 'bg-[#071510] text-emerald-50 selection:bg-emerald-500 selection:text-black dark' 
+        : 'bg-[#f4f7f5] text-slate-800 selection:bg-emerald-500 selection:text-white'
+    }`}>
       {/* Floating Notifications */}
       <NotificationBanner
         notifications={notifications}
@@ -392,6 +415,8 @@ export function App() {
         onOpenPhoneModal={() => setShowPhoneModal(true)}
         onOpenOnboarding={() => setShowOnboarding(true)}
         onSwitchAccount={handleSwitchAccount}
+        theme={theme}
+        onToggleTheme={handleToggleTheme}
       />
 
       {/* Main Content Area */}
@@ -412,6 +437,7 @@ export function App() {
             onToggleMed={handleQuickToggleMed}
             onOpenOnboarding={() => setShowOnboarding(true)}
             onSwitchAccount={handleSwitchAccount}
+            theme={theme}
           />
         )}
 
@@ -496,15 +522,19 @@ export function App() {
       )}
 
 
-      {/* High-End Tech Footer */}
-      <footer className="border-t border-zinc-900 bg-zinc-950/80 py-6 text-center text-xs text-zinc-500">
+      {/* Vert Themed Friendly Footer */}
+      <footer className={`border-t py-6 text-center text-xs transition-colors ${
+        theme === 'vert-dark' 
+          ? 'border-emerald-900/40 bg-[#071510] text-emerald-200/60' 
+          : 'border-emerald-100 bg-white text-slate-500'
+      }`}>
         <div className="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
           <div className="flex items-center space-x-2">
-            <span className="w-2 h-2 rounded-full bg-emerald-400" />
-            <span className="font-mono text-[11px] text-zinc-400">VitalTrack Pro Health Operating System</span>
+            <span className="w-2 h-2 rounded-full bg-emerald-500" />
+            <span className="font-bold text-emerald-700 dark:text-emerald-400">VitalTrack • Daily Health & Workout Companion</span>
           </div>
-          <p className="text-[11px] text-zinc-500">
-            Workout Video Guidance • Dynamic Calorie & Macro Engine • Hair Loss DHT Regimen • Local Encrypted DB
+          <p className="text-[11px]">
+            Gym & Home Workouts with Videos • Calorie & Meal Reminders • Hair Care & Hydration
           </p>
         </div>
       </footer>

@@ -122,22 +122,22 @@ export const ActivitySection: React.FC<ActivitySectionProps> = ({
   return (
     <div className="space-y-6">
       {/* Overview Banner */}
-      <div className="bg-zinc-900 border border-zinc-800 rounded-3xl p-6 shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="bg-white dark:bg-[#0d221a] border border-emerald-100 dark:border-emerald-900/50 rounded-3xl p-6 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <div className="flex items-center space-x-2 text-emerald-400 text-xs font-bold tracking-wider uppercase mb-1">
+          <div className="flex items-center space-x-2 text-emerald-600 dark:text-emerald-400 text-xs font-bold tracking-wider uppercase mb-1">
             <Activity className="w-4 h-4" />
             <span>Lifestyle & Active Energy Expenditure</span>
           </div>
-          <h2 className="text-2xl font-bold text-white tracking-tight">Daily Activity & Cardio Log</h2>
-          <p className="text-zinc-400 text-sm mt-0.5">
+          <h2 className="text-2xl font-black text-slate-900 dark:text-emerald-50 tracking-tight">Daily Activity & Cardio Log</h2>
+          <p className="text-slate-500 dark:text-emerald-300/70 text-sm mt-0.5">
             Log steps, cardio, yoga, sleep, or desk work to automatically calculate non-exercise physical activity (NEAT).
           </p>
         </div>
 
         <div className="flex items-center space-x-3">
-          <div className="bg-zinc-950 px-4 py-2 rounded-2xl border border-zinc-800 text-right">
-            <span className="text-[11px] text-zinc-400 uppercase">Active Burn</span>
-            <div className="flex items-center space-x-1 text-amber-400 font-bold text-lg">
+          <div className="bg-slate-50 dark:bg-[#071510] px-4 py-2 rounded-2xl border border-slate-200 dark:border-emerald-900/50 text-right">
+            <span className="text-[11px] text-slate-400 dark:text-emerald-400/60 uppercase font-bold">Active Burn</span>
+            <div className="flex items-center space-x-1 text-amber-500 font-black text-lg">
               <Flame className="w-4 h-4 fill-current" />
               <span>{totalCaloriesBurned} kcal</span>
             </div>
@@ -145,7 +145,7 @@ export const ActivitySection: React.FC<ActivitySectionProps> = ({
 
           <button
             onClick={() => setShowModal(true)}
-            className="flex items-center space-x-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-zinc-950 font-bold text-sm hover:from-emerald-400 hover:to-teal-400 shadow-lg shadow-emerald-500/25 transition"
+            className="flex items-center space-x-2 px-5 py-3 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white font-bold text-sm shadow-lg shadow-emerald-600/20 transition"
           >
             <Plus className="w-4 h-4" />
             <span>Log Activity</span>
@@ -155,33 +155,33 @@ export const ActivitySection: React.FC<ActivitySectionProps> = ({
 
       {/* Quick 1-Click Presets */}
       <div>
-        <h4 className="text-xs font-bold text-zinc-400 uppercase tracking-wider mb-2.5">Quick Activity Presets</h4>
+        <h4 className="text-xs font-bold text-slate-500 dark:text-emerald-300/70 uppercase tracking-wider mb-2.5">Quick Activity Presets</h4>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5">
           {presets.map((p, idx) => (
             <button
               key={idx}
               onClick={() => handleQuickPreset(p)}
-              className="bg-zinc-900 border border-zinc-800 hover:border-emerald-500/40 p-3 rounded-2xl text-left transition hover:bg-zinc-800/60"
+              className="bg-white dark:bg-[#0d221a] border border-emerald-100 dark:border-emerald-900/50 hover:border-emerald-400 p-3.5 rounded-2xl text-left transition hover:shadow-xs group"
             >
-              <div className="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center font-bold text-xs mb-2">
+              <div className="w-8 h-8 rounded-xl bg-emerald-50 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/60 flex items-center justify-center font-black text-xs mb-2">
                 +{p.mins}m
               </div>
-              <p className="font-semibold text-white text-xs leading-snug">{p.label.split('(')[0].trim()}</p>
-              <span className="text-[10px] text-zinc-400">~{calculateCalories(p.category, p.mins, p.intensity)} kcal</span>
+              <p className="font-bold text-slate-800 dark:text-white text-xs leading-snug group-hover:text-emerald-600 transition">{p.label.split('(')[0].trim()}</p>
+              <span className="text-[10px] text-slate-400 dark:text-emerald-300/60 font-semibold">~{calculateCalories(p.category, p.mins, p.intensity)} kcal</span>
             </button>
           ))}
         </div>
       </div>
 
       {/* Logged Activities Timeline */}
-      <div className="bg-zinc-900 border border-zinc-800 rounded-3xl p-6">
-        <h3 className="text-base font-bold text-white mb-4 flex items-center space-x-2">
-          <Clock className="w-4 h-4 text-emerald-400" />
+      <div className="bg-white dark:bg-[#0d221a] border border-emerald-100 dark:border-emerald-900/50 rounded-3xl p-6 shadow-sm">
+        <h3 className="text-base font-black text-slate-900 dark:text-emerald-50 mb-4 flex items-center space-x-2">
+          <Clock className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
           <span>Timeline of Today's Logged Activities ({activities.length})</span>
         </h3>
 
         {activities.length === 0 ? (
-          <div className="text-center py-10 border border-dashed border-zinc-800 rounded-2xl text-zinc-500 text-sm">
+          <div className="text-center py-10 border border-dashed border-slate-200 dark:border-emerald-900/40 rounded-2xl text-slate-400 dark:text-emerald-300/50 text-sm">
             No additional activities logged today yet. Click &quot;Log Activity&quot; or choose a quick preset above.
           </div>
         ) : (
@@ -189,10 +189,10 @@ export const ActivitySection: React.FC<ActivitySectionProps> = ({
             {activities.map((act) => (
               <div
                 key={act.id}
-                className="bg-zinc-950 border border-zinc-800 rounded-2xl p-4 flex items-center justify-between hover:border-zinc-700 transition"
+                className="bg-slate-50 dark:bg-[#071510] border border-slate-200 dark:border-emerald-900/40 rounded-2xl p-4 flex items-center justify-between hover:border-emerald-300 transition"
               >
                 <div className="flex items-center space-x-3.5">
-                  <div className="w-10 h-10 rounded-xl bg-zinc-900 border border-zinc-800 flex items-center justify-center text-emerald-400">
+                  <div className="w-10 h-10 rounded-xl bg-white dark:bg-[#0d221a] border border-slate-200 dark:border-emerald-900/50 flex items-center justify-center text-emerald-600 dark:text-emerald-400 shadow-xs">
                     {act.category === 'walking' && <Footprints className="w-5 h-5" />}
                     {act.category === 'cycling' && <Bike className="w-5 h-5" />}
                     {act.category === 'sleep' && <Moon className="w-5 h-5" />}
@@ -202,19 +202,19 @@ export const ActivitySection: React.FC<ActivitySectionProps> = ({
 
                   <div>
                     <div className="flex items-center space-x-2">
-                      <h4 className="font-bold text-white text-sm">{act.title}</h4>
-                      <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-zinc-800 text-zinc-300 capitalize">
+                      <h4 className="font-bold text-slate-900 dark:text-white text-sm">{act.title}</h4>
+                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 capitalize">
                         {act.intensity} intensity
                       </span>
                     </div>
-                    <div className="flex items-center space-x-3 text-xs text-zinc-400 mt-0.5">
+                    <div className="flex items-center space-x-3 text-xs text-slate-500 dark:text-emerald-300/60 mt-0.5">
                       <span>Logged at {act.loggedAt}</span>
                       <span>•</span>
                       <span>{act.durationMinutes} minutes</span>
                       {act.notes && (
                         <>
                           <span>•</span>
-                          <span className="italic text-zinc-500 truncate max-w-xs">{act.notes}</span>
+                          <span className="italic text-slate-400 truncate max-w-xs">{act.notes}</span>
                         </>
                       )}
                     </div>
@@ -223,16 +223,16 @@ export const ActivitySection: React.FC<ActivitySectionProps> = ({
 
                 <div className="flex items-center space-x-4">
                   <div className="text-right">
-                    <div className="flex items-center space-x-1 text-amber-400 font-bold text-sm">
+                    <div className="flex items-center space-x-1 text-amber-500 font-black text-sm">
                       <Flame className="w-4 h-4 fill-current" />
                       <span>{act.caloriesBurned} kcal</span>
                     </div>
-                    <span className="text-[10px] text-zinc-500">Expenditure</span>
+                    <span className="text-[10px] text-slate-400">Expenditure</span>
                   </div>
 
                   <button
                     onClick={() => onRemoveActivity(act.id)}
-                    className="text-zinc-600 hover:text-rose-400 transition"
+                    className="text-slate-400 hover:text-rose-500 transition p-1"
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>
@@ -245,32 +245,32 @@ export const ActivitySection: React.FC<ActivitySectionProps> = ({
 
       {/* Add Custom Activity Modal */}
       {showModal && (
-        <div className="fixed inset-0 z-50 bg-zinc-950/80 backdrop-blur-md flex items-center justify-center p-4">
-          <div className="bg-zinc-900 border border-zinc-700 rounded-3xl max-w-md w-full p-6 shadow-2xl">
-            <div className="flex items-center justify-between pb-4 border-b border-zinc-800">
-              <h3 className="text-lg font-bold text-white">Log Daily Activity</h3>
-              <button onClick={() => setShowModal(false)} className="text-zinc-400 hover:text-white">✕</button>
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-md flex items-center justify-center p-4">
+          <div className="bg-white dark:bg-[#0d221a] text-slate-900 dark:text-emerald-50 border border-emerald-200 dark:border-emerald-900/60 rounded-3xl max-w-md w-full p-6 shadow-2xl">
+            <div className="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-emerald-900/40">
+              <h3 className="text-lg font-black">Log Daily Activity</h3>
+              <button onClick={() => setShowModal(false)} className="text-slate-400 hover:text-slate-700 dark:hover:text-white">✕</button>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-4 py-4 text-xs">
               <div>
-                <label className="block text-zinc-400 mb-1 font-semibold">Activity Title / Name</label>
+                <label className="block text-slate-600 dark:text-emerald-300/70 mb-1 font-bold">Activity Title / Name</label>
                 <input
                   type="text"
                   placeholder="e.g. Evening Jog, 10,000 Steps, HIIT Circuit"
                   value={form.title}
                   onChange={(e) => setForm({ ...form, title: e.target.value })}
-                  className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-3 py-2 text-white text-sm focus:outline-none focus:border-emerald-500"
+                  className="w-full bg-slate-50 dark:bg-[#071510] border border-slate-200 dark:border-emerald-900/60 rounded-xl px-3 py-2 text-slate-900 dark:text-white text-sm focus:outline-none focus:border-emerald-500 font-medium"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-zinc-400 mb-1 font-semibold">Category</label>
+                  <label className="block text-slate-600 dark:text-emerald-300/70 mb-1 font-bold">Category</label>
                   <select
                     value={form.category}
                     onChange={(e) => setForm({ ...form, category: e.target.value as OtherActivity['category'] })}
-                    className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-3 py-2 text-white text-xs focus:outline-none"
+                    className="w-full bg-slate-50 dark:bg-[#071510] border border-slate-200 dark:border-emerald-900/60 rounded-xl px-3 py-2 text-slate-900 dark:text-white text-xs focus:outline-none font-bold"
                   >
                     <option value="walking">Walking / Steps</option>
                     <option value="running">Running / Jogging</option>
@@ -285,30 +285,30 @@ export const ActivitySection: React.FC<ActivitySectionProps> = ({
                 </div>
 
                 <div>
-                  <label className="block text-zinc-400 mb-1 font-semibold">Duration (Minutes)</label>
+                  <label className="block text-slate-600 dark:text-emerald-300/70 mb-1 font-bold">Duration (Minutes)</label>
                   <input
                     type="number"
                     min="1"
                     required
                     value={form.durationMinutes}
                     onChange={(e) => setForm({ ...form, durationMinutes: parseInt(e.target.value) || 1 })}
-                    className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-3 py-2 text-white text-xs focus:outline-none"
+                    className="w-full bg-slate-50 dark:bg-[#071510] border border-slate-200 dark:border-emerald-900/60 rounded-xl px-3 py-2 text-slate-900 dark:text-white text-xs focus:outline-none font-bold"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-zinc-400 mb-1 font-semibold">Intensity Level</label>
+                <label className="block text-slate-600 dark:text-emerald-300/70 mb-1 font-bold">Intensity Level</label>
                 <div className="grid grid-cols-3 gap-2">
                   {(['low', 'moderate', 'high'] as const).map((lvl) => (
                     <button
                       key={lvl}
                       type="button"
                       onClick={() => setForm({ ...form, intensity: lvl })}
-                      className={`py-2 rounded-xl text-xs font-semibold capitalize transition ${
+                      className={`py-2 rounded-xl text-xs font-bold capitalize transition ${
                         form.intensity === lvl
-                          ? 'bg-emerald-500 text-zinc-950 font-bold'
-                          : 'bg-zinc-950 border border-zinc-800 text-zinc-400 hover:bg-zinc-800'
+                          ? 'bg-emerald-600 text-white shadow-xs'
+                          : 'bg-slate-100 dark:bg-[#071510] border border-slate-200 dark:border-emerald-900/40 text-slate-600 dark:text-emerald-300/60 hover:bg-slate-200'
                       }`}
                     >
                       {lvl}
@@ -318,19 +318,19 @@ export const ActivitySection: React.FC<ActivitySectionProps> = ({
               </div>
 
               <div>
-                <label className="block text-zinc-400 mb-1 font-semibold">Notes (Optional)</label>
+                <label className="block text-slate-600 dark:text-emerald-300/70 mb-1 font-bold">Notes (Optional)</label>
                 <input
                   type="text"
                   placeholder="Distance, heart rate, how it felt"
                   value={form.notes}
                   onChange={(e) => setForm({ ...form, notes: e.target.value })}
-                  className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-3 py-2 text-white text-xs focus:outline-none"
+                  className="w-full bg-slate-50 dark:bg-[#071510] border border-slate-200 dark:border-emerald-900/60 rounded-xl px-3 py-2 text-slate-900 dark:text-white text-xs focus:outline-none font-medium"
                 />
               </div>
 
-              <div className="bg-zinc-950 p-3 rounded-xl border border-zinc-800/80 flex items-center justify-between">
-                <span className="text-zinc-400">Estimated Calorie Burn:</span>
-                <span className="text-base font-bold text-amber-400">
+              <div className="bg-slate-50 dark:bg-[#071510] p-3 rounded-2xl border border-slate-200 dark:border-emerald-900/40 flex items-center justify-between">
+                <span className="text-slate-600 dark:text-emerald-300/70 font-semibold">Estimated Calorie Burn:</span>
+                <span className="text-base font-black text-amber-500">
                   ~{calculateCalories(form.category, form.durationMinutes, form.intensity)} kcal
                 </span>
               </div>
@@ -339,13 +339,13 @@ export const ActivitySection: React.FC<ActivitySectionProps> = ({
                 <button
                   type="button"
                   onClick={() => setShowModal(false)}
-                  className="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 rounded-xl"
+                  className="px-4 py-2 bg-slate-100 dark:bg-[#071510] hover:bg-slate-200 text-slate-700 dark:text-emerald-300 rounded-xl font-bold"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2 bg-emerald-500 hover:bg-emerald-400 font-bold text-zinc-950 rounded-xl shadow-lg"
+                  className="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 font-bold text-white rounded-xl shadow-xs"
                 >
                   Save Activity
                 </button>

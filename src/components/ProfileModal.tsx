@@ -44,41 +44,41 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-xl flex items-center justify-center p-4">
-      <div className="bg-zinc-900 border border-zinc-800 rounded-3xl max-w-2xl w-full p-6 shadow-2xl flex flex-col max-h-[90vh] overflow-y-auto">
+    <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-md flex items-center justify-center p-4">
+      <div className="bg-white dark:bg-[#0d221a] text-slate-900 dark:text-emerald-50 border border-emerald-100 dark:border-emerald-900/50 rounded-3xl max-w-2xl w-full p-6 sm:p-7 shadow-2xl flex flex-col max-h-[90vh] overflow-y-auto">
         {/* Header */}
-        <div className="flex items-center justify-between pb-4 border-b border-zinc-800">
+        <div className="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-emerald-900/40">
           <div className="flex items-center space-x-2.5">
-            <div className="w-8 h-8 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center">
-              <User className="w-4 h-4" />
+            <div className="w-9 h-9 rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/40 flex items-center justify-center">
+              <User className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="text-lg font-bold text-white">Biometric Settings & Profile</h3>
-              <p className="text-xs text-zinc-400">BMI metrics, target weight, training split, and energy targets</p>
+              <h3 className="text-lg font-bold">Biometric Settings & Profile</h3>
+              <p className="text-xs text-slate-500 dark:text-emerald-300/60">BMI metrics, target weight, training split & energy targets</p>
             </div>
           </div>
           <button 
             onClick={onClose} 
-            className="p-1 rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-800 transition"
+            className="p-1 rounded-xl text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-emerald-900/30 transition"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Account Authentication Banner */}
-        <div className="mt-4 p-3.5 rounded-2xl bg-zinc-950 border border-zinc-800 flex items-center justify-between">
+        <div className="mt-4 p-4 rounded-2xl bg-emerald-50/60 dark:bg-[#071510] border border-emerald-100 dark:border-emerald-900/50 flex items-center justify-between">
           <div className="flex items-center space-x-2.5">
-            <span className="w-7 h-7 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center border border-emerald-500/20">
+            <span className="w-8 h-8 rounded-xl bg-emerald-100 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
               <CheckCircle className="w-4 h-4" />
             </span>
             <div>
               <div className="flex items-center space-x-2">
-                <span className="text-xs font-bold text-white">Registered Mobile DB</span>
-                <span className="text-[10px] bg-emerald-500/15 text-emerald-400 px-1.5 py-0.2 rounded font-mono font-semibold">
+                <span className="text-xs font-bold">Registered Mobile Database</span>
+                <span className="text-[10px] bg-emerald-200/80 dark:bg-emerald-500/20 text-emerald-800 dark:text-emerald-300 px-2 py-0.5 rounded-full font-bold">
                   ACTIVE
                 </span>
               </div>
-              <p className="text-xs text-zinc-400 font-mono mt-0.5">
+              <p className="text-xs text-slate-600 dark:text-emerald-300/70 font-mono mt-0.5">
                 {form.phoneNumber || 'Not registered'}
               </p>
             </div>
@@ -88,9 +88,9 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({
             <button
               type="button"
               onClick={onSwitchAccount}
-              className="px-3 py-1.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-300 hover:text-white text-xs font-semibold flex items-center space-x-1.5 border border-zinc-700 transition"
+              className="px-3.5 py-2 rounded-xl bg-white dark:bg-[#0d221a] hover:bg-slate-50 dark:hover:bg-emerald-900/40 text-slate-700 dark:text-emerald-200 text-xs font-bold flex items-center space-x-1.5 border border-slate-200 dark:border-emerald-800/60 transition shadow-xs"
             >
-              <LogOut className="w-3.5 h-3.5" />
+              <LogOut className="w-3.5 h-3.5 text-rose-500" />
               <span>Switch User</span>
             </button>
           )}
@@ -100,34 +100,34 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({
           {/* Basic Info: Name, Age, Gender */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div>
-              <label className="block text-[11px] font-semibold uppercase tracking-wider text-zinc-400 mb-1">Your Name</label>
+              <label className="block text-slate-600 dark:text-emerald-300 font-bold mb-1">Your Name</label>
               <input
                 type="text"
                 required
                 value={form.name}
                 onChange={(e) => setForm({ ...form, name: e.target.value })}
-                className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-3 py-2 text-white text-sm focus:outline-none focus:border-emerald-500"
+                className="w-full bg-slate-50 dark:bg-[#071510] border border-slate-200 dark:border-emerald-900/60 rounded-xl px-3 py-2 text-slate-900 dark:text-white text-sm focus:outline-none focus:border-emerald-500"
               />
             </div>
 
             <div>
-              <label className="block text-[11px] font-semibold uppercase tracking-wider text-zinc-400 mb-1">Age</label>
+              <label className="block text-slate-600 dark:text-emerald-300 font-bold mb-1">Age</label>
               <input
                 type="number"
                 min="14"
                 max="100"
                 value={form.age}
                 onChange={(e) => setForm({ ...form, age: parseInt(e.target.value) || 25 })}
-                className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-3 py-2 text-white text-sm focus:outline-none focus:border-emerald-500 font-mono"
+                className="w-full bg-slate-50 dark:bg-[#071510] border border-slate-200 dark:border-emerald-900/60 rounded-xl px-3 py-2 text-slate-900 dark:text-white text-sm focus:outline-none focus:border-emerald-500 font-mono"
               />
             </div>
 
             <div>
-              <label className="block text-[11px] font-semibold uppercase tracking-wider text-zinc-400 mb-1">Gender</label>
+              <label className="block text-slate-600 dark:text-emerald-300 font-bold mb-1">Gender</label>
               <select
                 value={form.gender}
                 onChange={(e) => setForm({ ...form, gender: e.target.value as Gender })}
-                className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-3 py-2 text-white text-sm focus:outline-none focus:border-emerald-500"
+                className="w-full bg-slate-50 dark:bg-[#071510] border border-slate-200 dark:border-emerald-900/60 rounded-xl px-3 py-2 text-slate-900 dark:text-white text-sm focus:outline-none focus:border-emerald-500"
               >
                 <option value="male">Male</option>
                 <option value="female">Female</option>
@@ -136,55 +136,59 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({
           </div>
 
           {/* Height, Weight & BMI System Recommendation */}
-          <div className="bg-zinc-950 border border-zinc-800 rounded-2xl p-4 space-y-3">
+          <div className="bg-slate-50 dark:bg-[#071510] border border-emerald-100 dark:border-emerald-900/50 rounded-2xl p-4 space-y-3">
             <div className="flex items-center justify-between">
-              <span className="text-emerald-400 text-xs font-bold uppercase tracking-wider flex items-center space-x-1.5">
+              <span className="text-emerald-600 dark:text-emerald-400 text-xs font-bold uppercase tracking-wider flex items-center space-x-1.5">
                 <Scale className="w-4 h-4" />
-                <span>BMI Engine & Optimal Target Weight</span>
+                <span>BMI Engine & Ideal Goal Weight</span>
               </span>
-              <span className={`text-xs font-bold px-2 py-0.5 rounded-full bg-zinc-900 border border-zinc-700 ${bmiDetails.color}`}>
+              <span className={`text-xs font-bold px-2.5 py-0.5 rounded-full border ${
+                bmiDetails.category === 'Normal' 
+                  ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 border-emerald-200' 
+                  : 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300 border-amber-200'
+              }`}>
                 BMI {bmiDetails.bmi} ({bmiDetails.category})
               </span>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <div>
-                <label className="block text-zinc-400 font-semibold mb-1">Current Weight (kg)</label>
+                <label className="block text-slate-500 dark:text-emerald-300/70 font-semibold mb-1">Current Weight (kg)</label>
                 <input
                   type="number"
                   step="0.5"
                   required
                   value={form.weightKg}
                   onChange={(e) => setForm({ ...form, weightKg: parseFloat(e.target.value) || 60 })}
-                  className="w-full bg-zinc-900 border border-zinc-700 rounded-xl px-3 py-2 text-white text-sm font-bold focus:outline-none font-mono"
+                  className="w-full bg-white dark:bg-[#0d221a] border border-slate-200 dark:border-emerald-800/60 rounded-xl px-3 py-2 text-slate-900 dark:text-white text-sm font-bold focus:outline-none font-mono"
                 />
               </div>
 
               <div>
-                <label className="block text-zinc-400 font-semibold mb-1">Height (cm)</label>
+                <label className="block text-slate-500 dark:text-emerald-300/70 font-semibold mb-1">Height (cm)</label>
                 <input
                   type="number"
                   required
                   value={form.heightCm}
                   onChange={(e) => setForm({ ...form, heightCm: parseInt(e.target.value) || 170 })}
-                  className="w-full bg-zinc-900 border border-zinc-700 rounded-xl px-3 py-2 text-white text-sm font-bold focus:outline-none font-mono"
+                  className="w-full bg-white dark:bg-[#0d221a] border border-slate-200 dark:border-emerald-800/60 rounded-xl px-3 py-2 text-slate-900 dark:text-white text-sm font-bold focus:outline-none font-mono"
                 />
               </div>
 
               <div>
-                <label className="block text-zinc-400 font-semibold mb-1">Target Goal Weight (kg)</label>
+                <label className="block text-slate-500 dark:text-emerald-300/70 font-semibold mb-1">Target Goal Weight (kg)</label>
                 <div className="flex items-center space-x-1">
                   <input
                     type="number"
                     step="0.5"
                     value={form.goalWeightKg || bmiDetails.systemRecommendedWeight}
                     onChange={(e) => setForm({ ...form, goalWeightKg: parseFloat(e.target.value) || bmiDetails.systemRecommendedWeight })}
-                    className="w-full bg-zinc-900 border border-emerald-500/50 rounded-xl px-3 py-2 text-white text-sm font-bold focus:outline-none font-mono"
+                    className="w-full bg-white dark:bg-[#0d221a] border border-emerald-300 dark:border-emerald-500/50 rounded-xl px-3 py-2 text-emerald-600 dark:text-emerald-400 text-sm font-bold focus:outline-none font-mono"
                   />
                   <button
                     type="button"
                     onClick={() => setForm({ ...form, goalWeightKg: bmiDetails.systemRecommendedWeight })}
-                    className="px-2 py-2 bg-zinc-800 text-emerald-400 text-[10px] rounded-lg font-bold whitespace-nowrap border border-zinc-700"
+                    className="px-2.5 py-2 bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 text-[10px] rounded-lg font-bold whitespace-nowrap"
                     title="Set to system recommended weight"
                   >
                     Auto
@@ -193,26 +197,26 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({
               </div>
             </div>
 
-            <p className="text-[11px] text-zinc-300 leading-snug">
-              {bmiDetails.advice} Healthy normal range: <strong>{bmiDetails.minHealthyWeight}–{bmiDetails.maxHealthyWeight} kg</strong>.
+            <p className="text-[11px] text-slate-600 dark:text-emerald-200/80 leading-snug">
+              {bmiDetails.advice} Healthy range: <strong>{bmiDetails.minHealthyWeight}–{bmiDetails.maxHealthyWeight} kg</strong>.
             </p>
           </div>
 
           {/* Workout Location (Gym vs Home) & Time of Gym */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label className="block text-[11px] font-semibold uppercase tracking-wider text-zinc-400 mb-1 flex items-center space-x-1">
-                <Dumbbell className="w-3.5 h-3.5 text-emerald-400" />
+              <label className="block text-slate-600 dark:text-emerald-300 font-bold mb-1 flex items-center space-x-1">
+                <Dumbbell className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
                 <span>Workout Location</span>
               </label>
               <div className="grid grid-cols-2 gap-2">
                 <button
                   type="button"
                   onClick={() => setForm({ ...form, workoutLocation: 'gym' })}
-                  className={`py-2 px-3 rounded-xl border text-center transition ${
+                  className={`py-2 px-3 rounded-xl border text-center transition font-bold ${
                     form.workoutLocation === 'gym'
-                      ? 'bg-emerald-500/15 border-emerald-500 text-white font-bold'
-                      : 'bg-zinc-950 border-zinc-800 text-zinc-400'
+                      ? 'bg-emerald-600 text-white border-emerald-600 shadow-xs'
+                      : 'bg-slate-50 dark:bg-[#071510] border-slate-200 dark:border-emerald-900/50 text-slate-600 dark:text-emerald-200/70'
                   }`}
                 >
                   🏋️ Gym Routine
@@ -220,10 +224,10 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({
                 <button
                   type="button"
                   onClick={() => setForm({ ...form, workoutLocation: 'home' })}
-                  className={`py-2 px-3 rounded-xl border text-center transition ${
+                  className={`py-2 px-3 rounded-xl border text-center transition font-bold ${
                     form.workoutLocation === 'home'
-                      ? 'bg-emerald-500/15 border-emerald-500 text-white font-bold'
-                      : 'bg-zinc-950 border-zinc-800 text-zinc-400'
+                      ? 'bg-emerald-600 text-white border-emerald-600 shadow-xs'
+                      : 'bg-slate-50 dark:bg-[#071510] border-slate-200 dark:border-emerald-900/50 text-slate-600 dark:text-emerald-200/70'
                   }`}
                 >
                   🏠 Home Routine
@@ -232,8 +236,8 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({
             </div>
 
             <div>
-              <label className="block text-[11px] font-semibold uppercase tracking-wider text-zinc-400 mb-1 flex items-center space-x-1">
-                <Clock className="w-3.5 h-3.5 text-emerald-400" />
+              <label className="block text-slate-600 dark:text-emerald-300 font-bold mb-1 flex items-center space-x-1">
+                <Clock className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
                 <span>Workout Time & Frequency</span>
               </label>
               <div className="flex items-center space-x-2">
@@ -241,12 +245,12 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({
                   type="time"
                   value={form.preferredWorkoutTime || '18:00'}
                   onChange={(e) => setForm({ ...form, preferredWorkoutTime: e.target.value })}
-                  className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-3 py-2 text-white text-sm font-bold focus:outline-none font-mono"
+                  className="w-full bg-slate-50 dark:bg-[#071510] border border-slate-200 dark:border-emerald-900/60 rounded-xl px-3 py-2 text-slate-900 dark:text-white text-sm font-bold focus:outline-none font-mono"
                 />
                 <select
                   value={form.workoutDaysPerWeek || 5}
                   onChange={(e) => setForm({ ...form, workoutDaysPerWeek: parseInt(e.target.value) || 5 })}
-                  className="bg-zinc-950 border border-zinc-800 rounded-xl px-2.5 py-2 text-white text-xs font-semibold focus:outline-none"
+                  className="bg-slate-50 dark:bg-[#071510] border border-slate-200 dark:border-emerald-900/60 rounded-xl px-2.5 py-2 text-slate-900 dark:text-white text-xs font-bold focus:outline-none"
                 >
                   <option value={3}>3 d/wk</option>
                   <option value={4}>4 d/wk</option>
@@ -257,39 +261,9 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({
             </div>
           </div>
 
-          {/* Occupation & Daily Activity */}
-          <div>
-            <label className="block text-[11px] font-semibold uppercase tracking-wider text-zinc-400 mb-1 flex items-center space-x-1">
-              <Briefcase className="w-3.5 h-3.5 text-emerald-400" />
-              <span>Daily Job Activity Level</span>
-            </label>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-              {[
-                { id: 'desk_job', label: 'Desk Job', desc: 'Sitting >6h' },
-                { id: 'standing_light', label: 'Light Stand', desc: 'Teacher, sales' },
-                { id: 'active_retail', label: 'Active Retail', desc: 'On feet all day' },
-                { id: 'heavy_labor', label: 'Physical Labor', desc: 'Heavy lifting' },
-              ].map((occ) => (
-                <button
-                  key={occ.id}
-                  type="button"
-                  onClick={() => setForm({ ...form, occupationType: occ.id as OccupationType })}
-                  className={`p-2.5 rounded-xl border text-left transition ${
-                    form.occupationType === occ.id
-                      ? 'bg-emerald-500/15 border-emerald-500 text-white font-bold'
-                      : 'bg-zinc-950 border-zinc-800 text-zinc-400 hover:bg-zinc-800'
-                  }`}
-                >
-                  <p className="text-xs text-white">{occ.label}</p>
-                  <p className="text-[10px] text-zinc-500">{occ.desc}</p>
-                </button>
-              ))}
-            </div>
-          </div>
-
           {/* Fitness Goal */}
           <div>
-            <label className="block text-[11px] font-semibold uppercase tracking-wider text-zinc-400 mb-1">
+            <label className="block text-slate-600 dark:text-emerald-300 font-bold mb-1">
               Primary Objective
             </label>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
@@ -305,60 +279,60 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({
                   onClick={() => setForm({ ...form, goal: g.id as FitnessGoal })}
                   className={`p-2.5 rounded-xl border text-left transition ${
                     form.goal === g.id
-                      ? 'bg-cyan-500/15 border-cyan-500 text-white font-bold'
-                      : 'bg-zinc-950 border-zinc-800 text-zinc-400 hover:bg-zinc-800'
+                      ? 'bg-emerald-500/15 border-emerald-500 text-emerald-800 dark:text-emerald-200 font-bold'
+                      : 'bg-slate-50 dark:bg-[#071510] border-slate-200 dark:border-emerald-900/50 text-slate-600 dark:text-emerald-300/70 hover:bg-slate-100'
                   }`}
                 >
-                  <p className="text-xs text-white">{g.label}</p>
-                  <p className="text-[10px] text-zinc-500 mt-0.5">{g.desc}</p>
+                  <p className="text-xs font-bold">{g.label}</p>
+                  <p className="text-[10px] text-slate-400 dark:text-emerald-400/60 mt-0.5">{g.desc}</p>
                 </button>
               ))}
             </div>
           </div>
 
           {/* Calculated Output Summary */}
-          <div className="bg-zinc-950 border border-zinc-800 rounded-2xl p-4 space-y-2">
-            <div className="flex items-center space-x-1.5 text-emerald-400 text-xs font-bold uppercase tracking-wider">
+          <div className="bg-emerald-50/60 dark:bg-[#071510] border border-emerald-100 dark:border-emerald-900/50 rounded-2xl p-4 space-y-2">
+            <div className="flex items-center space-x-1.5 text-emerald-700 dark:text-emerald-400 text-xs font-bold uppercase tracking-wider">
               <Calculator className="w-4 h-4" />
-              <span>Calculated Metabolic Output</span>
+              <span>Target Energy Summary</span>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center font-mono">
-              <div className="bg-zinc-900 p-2 rounded-xl border border-zinc-800">
-                <span className="text-[10px] text-zinc-500 uppercase font-sans">Basal (BMR)</span>
-                <p className="text-base font-bold text-white">{previewTargets.bmr} kcal</p>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
+              <div className="bg-white dark:bg-[#0d221a] p-2.5 rounded-xl border border-slate-200 dark:border-emerald-900/50">
+                <span className="text-[10px] text-slate-500 dark:text-emerald-300/60 uppercase font-bold">Burn (TDEE)</span>
+                <p className="text-base font-extrabold text-slate-900 dark:text-white font-mono">{previewTargets.tdee} kcal</p>
               </div>
 
-              <div className="bg-zinc-900 p-2 rounded-xl border border-zinc-800">
-                <span className="text-[10px] text-zinc-500 uppercase font-sans">TDEE Burn</span>
-                <p className="text-base font-bold text-zinc-200">{previewTargets.tdee} kcal</p>
+              <div className="bg-white dark:bg-[#0d221a] p-2.5 rounded-xl border border-emerald-200 dark:border-emerald-700">
+                <span className="text-[10px] text-emerald-600 dark:text-emerald-400 uppercase font-bold">Target Diet</span>
+                <p className="text-base font-extrabold text-emerald-600 dark:text-emerald-400 font-mono">{previewTargets.targetCalories} kcal</p>
               </div>
 
-              <div className="bg-zinc-900 p-2 rounded-xl border border-zinc-800">
-                <span className="text-[10px] text-emerald-400 uppercase font-bold font-sans">Target Diet</span>
-                <p className="text-base font-black text-emerald-400">{previewTargets.targetCalories} kcal</p>
+              <div className="bg-white dark:bg-[#0d221a] p-2.5 rounded-xl border border-slate-200 dark:border-emerald-900/50">
+                <span className="text-[10px] text-teal-600 dark:text-teal-400 uppercase font-bold">Protein</span>
+                <p className="text-base font-extrabold text-teal-600 dark:text-teal-400 font-mono">{previewTargets.targetProteinGrams}g</p>
               </div>
 
-              <div className="bg-zinc-900 p-2 rounded-xl border border-zinc-800">
-                <span className="text-[10px] text-cyan-400 uppercase font-bold font-sans">Target Protein</span>
-                <p className="text-base font-black text-cyan-400">{previewTargets.targetProteinGrams}g</p>
+              <div className="bg-white dark:bg-[#0d221a] p-2.5 rounded-xl border border-slate-200 dark:border-emerald-900/50">
+                <span className="text-[10px] text-cyan-600 dark:text-cyan-400 uppercase font-bold">Water</span>
+                <p className="text-base font-extrabold text-cyan-600 dark:text-cyan-400 font-mono">{previewTargets.targetWaterMl} ml</p>
               </div>
             </div>
           </div>
 
-          <div className="flex justify-end space-x-3 pt-3 border-t border-zinc-800">
+          <div className="flex justify-end space-x-3 pt-3 border-t border-slate-100 dark:border-emerald-900/40">
             <button
               type="button"
               onClick={onClose}
-              className="px-5 py-2.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 font-semibold rounded-xl text-xs"
+              className="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 dark:bg-emerald-950 dark:hover:bg-emerald-900 text-slate-700 dark:text-emerald-200 font-bold rounded-xl text-xs transition"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-6 py-2.5 bg-gradient-to-r from-emerald-500 to-teal-500 text-zinc-950 font-bold rounded-xl shadow-lg shadow-emerald-500/20 hover:from-emerald-400 hover:to-teal-400 transition text-xs"
+              className="px-6 py-2.5 bg-gradient-to-r from-emerald-600 to-teal-500 text-white font-bold rounded-xl shadow-md hover:from-emerald-500 hover:to-teal-400 transition text-xs"
             >
-              Save Changes
+              Save Profile
             </button>
           </div>
         </form>

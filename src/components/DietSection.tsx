@@ -153,33 +153,33 @@ export const DietSection: React.FC<DietSectionProps> = ({
   });
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 max-w-4xl mx-auto pb-12">
       {/* Calorie & Macro Target Progress Dashboard */}
-      <div className="bg-zinc-900 border border-zinc-800 rounded-3xl p-6 shadow-xl">
+      <div className="bg-white dark:bg-[#0d221a] text-slate-900 dark:text-emerald-50 border border-emerald-100 dark:border-emerald-900/50 rounded-3xl p-6 sm:p-7 shadow-sm">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
           <div>
-            <span className="text-emerald-400 text-xs font-bold tracking-wider uppercase flex items-center space-x-1.5 mb-1">
+            <span className="text-emerald-600 dark:text-emerald-400 text-xs font-bold tracking-wider uppercase flex items-center space-x-1.5 mb-1">
               <PieChart className="w-4 h-4" />
-              <span>Scientific Calorie & Macro Balance</span>
+              <span>Nutrition & Calorie Balance</span>
             </span>
-            <h2 className="text-2xl font-bold text-white tracking-tight">Daily Nutritional Blueprint</h2>
-            <p className="text-zinc-400 text-sm mt-0.5">Time-scheduled meals tuned to maintain energy, muscle anabolism, and fat-loss goals.</p>
+            <h2 className="text-2xl font-black tracking-tight">Daily Meal & Food Tracker</h2>
+            <p className="text-slate-500 dark:text-emerald-300/60 text-xs sm:text-sm mt-0.5">Time-scheduled meals tuned to maintain energy, muscle growth, and health goals.</p>
           </div>
 
-          <div className="bg-zinc-950/80 border border-zinc-800 rounded-2xl p-4 flex items-center space-x-6">
+          <div className="bg-slate-50 dark:bg-[#071510] border border-slate-200 dark:border-emerald-900/50 rounded-2xl p-4 flex items-center space-x-6">
             <div>
-              <p className="text-xs text-zinc-400">Total Consumed</p>
-              <p className="text-2xl font-black text-emerald-400">{totalCaloriesConsumed} <span className="text-sm font-normal text-zinc-500">kcal</span></p>
+              <p className="text-xs text-slate-400 dark:text-emerald-400/60 font-semibold">Consumed</p>
+              <p className="text-2xl font-black text-emerald-600 dark:text-emerald-400">{totalCaloriesConsumed} <span className="text-xs font-normal text-slate-400">kcal</span></p>
             </div>
-            <div className="h-8 w-px bg-zinc-800" />
+            <div className="h-8 w-px bg-slate-200 dark:bg-emerald-900/50" />
             <div>
-              <p className="text-xs text-zinc-400">Target Budget</p>
-              <p className="text-2xl font-black text-white">{targetCalories} <span className="text-sm font-normal text-zinc-500">kcal</span></p>
+              <p className="text-xs text-slate-400 dark:text-emerald-400/60 font-semibold">Daily Budget</p>
+              <p className="text-2xl font-black">{targetCalories} <span className="text-xs font-normal text-slate-400">kcal</span></p>
             </div>
-            <div className="h-8 w-px bg-zinc-800" />
+            <div className="h-8 w-px bg-slate-200 dark:bg-emerald-900/50" />
             <div>
-              <p className="text-xs text-zinc-400">Remaining</p>
-              <p className={`text-2xl font-black ${caloriesRemaining >= 0 ? 'text-cyan-400' : 'text-rose-400'}`}>
+              <p className="text-xs text-slate-400 dark:text-emerald-400/60 font-semibold">Remaining</p>
+              <p className={`text-2xl font-black ${caloriesRemaining >= 0 ? 'text-teal-600 dark:text-teal-400' : 'text-rose-500'}`}>
                 {caloriesRemaining >= 0 ? caloriesRemaining : `+${Math.abs(caloriesRemaining)} over`}
               </p>
             </div>
@@ -189,53 +189,53 @@ export const DietSection: React.FC<DietSectionProps> = ({
         {/* Macro Progress Bars */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* Protein Bar */}
-          <div className="bg-zinc-950/60 border border-zinc-800/80 rounded-2xl p-4">
+          <div className="bg-slate-50 dark:bg-[#071510] border border-slate-200 dark:border-emerald-900/50 rounded-2xl p-4">
             <div className="flex justify-between items-center mb-1.5">
-              <span className="text-xs font-bold text-emerald-400 uppercase tracking-wide">Protein (Muscle & Follicles)</span>
-              <span className="text-xs font-bold text-white">{totalProteinConsumed}g / {targetProtein}g</span>
+              <span className="text-xs font-bold text-emerald-700 dark:text-emerald-400 uppercase tracking-wide">Protein (Muscle & Hair)</span>
+              <span className="text-xs font-bold">{totalProteinConsumed}g / {targetProtein}g</span>
             </div>
-            <div className="w-full h-2.5 bg-zinc-800 rounded-full overflow-hidden">
+            <div className="w-full h-2.5 bg-slate-200 dark:bg-emerald-950 rounded-full overflow-hidden">
               <div 
-                className="h-full bg-gradient-to-r from-emerald-500 to-teal-400 rounded-full transition-all duration-500"
+                className="h-full bg-gradient-to-r from-emerald-600 to-teal-400 rounded-full transition-all duration-500"
                 style={{ width: `${Math.min(100, (totalProteinConsumed / targetProtein) * 100)}%` }}
               />
             </div>
-            <p className="text-[11px] text-zinc-400 mt-1.5">
-              {Math.max(0, targetProtein - totalProteinConsumed)}g remaining to meet nitrogen balance target
+            <p className="text-[11px] text-slate-500 dark:text-emerald-300/60 mt-1.5">
+              {Math.max(0, targetProtein - totalProteinConsumed)}g remaining to meet daily target
             </p>
           </div>
 
           {/* Carbs Bar */}
-          <div className="bg-zinc-950/60 border border-zinc-800/80 rounded-2xl p-4">
+          <div className="bg-slate-50 dark:bg-[#071510] border border-slate-200 dark:border-emerald-900/50 rounded-2xl p-4">
             <div className="flex justify-between items-center mb-1.5">
-              <span className="text-xs font-bold text-amber-400 uppercase tracking-wide">Carbohydrates (Gym Energy)</span>
-              <span className="text-xs font-bold text-white">{totalCarbsConsumed}g / {targetCarbs}g</span>
+              <span className="text-xs font-bold text-amber-600 dark:text-amber-400 uppercase tracking-wide">Carbohydrates (Gym Energy)</span>
+              <span className="text-xs font-bold">{totalCarbsConsumed}g / {targetCarbs}g</span>
             </div>
-            <div className="w-full h-2.5 bg-zinc-800 rounded-full overflow-hidden">
+            <div className="w-full h-2.5 bg-slate-200 dark:bg-emerald-950 rounded-full overflow-hidden">
               <div 
                 className="h-full bg-gradient-to-r from-amber-500 to-orange-400 rounded-full transition-all duration-500"
                 style={{ width: `${Math.min(100, (totalCarbsConsumed / targetCarbs) * 100)}%` }}
               />
             </div>
-            <p className="text-[11px] text-zinc-400 mt-1.5">
-              {Math.max(0, targetCarbs - totalCarbsConsumed)}g remaining for glycogen replenishing
+            <p className="text-[11px] text-slate-500 dark:text-emerald-300/60 mt-1.5">
+              {Math.max(0, targetCarbs - totalCarbsConsumed)}g remaining for energy
             </p>
           </div>
 
           {/* Fats Bar */}
-          <div className="bg-zinc-950/60 border border-zinc-800/80 rounded-2xl p-4">
+          <div className="bg-slate-50 dark:bg-[#071510] border border-slate-200 dark:border-emerald-900/50 rounded-2xl p-4">
             <div className="flex justify-between items-center mb-1.5">
-              <span className="text-xs font-bold text-indigo-400 uppercase tracking-wide">Fats (Hormones & Skin)</span>
-              <span className="text-xs font-bold text-white">{totalFatConsumed}g / {targetFat}g</span>
+              <span className="text-xs font-bold text-cyan-600 dark:text-cyan-400 uppercase tracking-wide">Fats (Hormones & Skin)</span>
+              <span className="text-xs font-bold">{totalFatConsumed}g / {targetFat}g</span>
             </div>
-            <div className="w-full h-2.5 bg-zinc-800 rounded-full overflow-hidden">
+            <div className="w-full h-2.5 bg-slate-200 dark:bg-emerald-950 rounded-full overflow-hidden">
               <div 
-                className="h-full bg-gradient-to-r from-indigo-500 to-purple-400 rounded-full transition-all duration-500"
+                className="h-full bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full transition-all duration-500"
                 style={{ width: `${Math.min(100, (totalFatConsumed / targetFat) * 100)}%` }}
               />
             </div>
-            <p className="text-[11px] text-zinc-400 mt-1.5">
-              {Math.max(0, targetFat - totalFatConsumed)}g remaining for essential fatty acids
+            <p className="text-[11px] text-slate-500 dark:text-emerald-300/60 mt-1.5">
+              {Math.max(0, targetFat - totalFatConsumed)}g remaining for healthy fats
             </p>
           </div>
         </div>
@@ -243,12 +243,12 @@ export const DietSection: React.FC<DietSectionProps> = ({
 
       {/* Meal Schedule Timeline */}
       <div className="space-y-4">
-        <div className="flex items-center justify-between">
-          <h3 className="text-lg font-bold text-white flex items-center space-x-2">
-            <Clock className="w-5 h-5 text-emerald-400" />
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+          <h3 className="text-lg font-black text-slate-900 dark:text-emerald-50 flex items-center space-x-2">
+            <Clock className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
             <span>Time-Slotted Meal Schedule & Reminders</span>
           </h3>
-          <span className="text-xs text-zinc-400">Click bell icons to toggle audio & push notification reminders</span>
+          <span className="text-xs text-slate-500 dark:text-emerald-300/60 font-medium">Click bell icons to toggle audio & push notification reminders</span>
         </div>
 
         {mealSlots.map((slot) => {
@@ -260,10 +260,10 @@ export const DietSection: React.FC<DietSectionProps> = ({
           return (
             <div
               key={slot.id}
-              className={`bg-zinc-900 border rounded-2xl overflow-hidden transition-all ${
+              className={`border rounded-2xl overflow-hidden transition-all ${
                 slot.isCompleted
-                  ? 'border-emerald-500/40 bg-emerald-950/10'
-                  : 'border-zinc-800 hover:border-zinc-700'
+                  ? 'border-emerald-300 dark:border-emerald-800/60 bg-emerald-50/40 dark:bg-[#0d221a]'
+                  : 'bg-white dark:bg-[#0d221a] border-emerald-100 dark:border-emerald-900/50 shadow-sm hover:border-emerald-300'
               }`}
             >
               <div className="p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -273,51 +273,51 @@ export const DietSection: React.FC<DietSectionProps> = ({
                     onClick={() => toggleMealCompleted(slot.id)}
                     className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all ${
                       slot.isCompleted
-                        ? 'bg-emerald-500 text-zinc-950 font-bold shadow-lg shadow-emerald-500/30'
-                        : 'bg-zinc-800 text-zinc-400 hover:bg-zinc-700 hover:text-white'
+                        ? 'bg-emerald-500 text-white font-bold shadow-md shadow-emerald-500/30'
+                        : 'bg-slate-100 dark:bg-[#071510] text-slate-400 hover:text-emerald-600 border border-slate-200 dark:border-emerald-900/40 shadow-xs'
                     }`}
                     title={slot.isCompleted ? 'Marked as Eaten' : 'Click to mark as eaten'}
                   >
-                    <CheckCircle className="w-6 h-6" />
+                    <CheckCircle className="w-5 h-5" />
                   </button>
 
                   <div>
                     <div className="flex items-center space-x-2">
-                      <h4 className={`text-base font-bold ${slot.isCompleted ? 'text-emerald-300 line-through' : 'text-white'}`}>
+                      <h4 className={`text-base font-bold ${slot.isCompleted ? 'line-through opacity-70' : ''}`}>
                         {slot.title}
                       </h4>
                       {slot.isCompleted && (
-                        <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400">
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300">
                           Eaten
                         </span>
                       )}
                     </div>
 
-                    <div className="flex items-center space-x-3 text-xs text-zinc-400 mt-1">
+                    <div className="flex items-center space-x-3 text-xs text-slate-500 dark:text-emerald-300/60 mt-1">
                       {/* Scheduled Time Input */}
-                      <div className="flex items-center space-x-1 bg-zinc-950 px-2 py-0.5 rounded border border-zinc-800">
-                        <Clock className="w-3 h-3 text-emerald-400" />
+                      <div className="flex items-center space-x-1 bg-slate-100 dark:bg-[#071510] px-2 py-0.5 rounded-lg border border-slate-200 dark:border-emerald-900/50">
+                        <Clock className="w-3 h-3 text-emerald-600 dark:text-emerald-400" />
                         <input
                           type="time"
                           value={slot.scheduledTime}
                           onChange={(e) => updateMealTime(slot.id, e.target.value)}
-                          className="bg-transparent text-zinc-200 text-xs focus:outline-none"
+                          className="bg-transparent text-slate-700 dark:text-emerald-200 text-xs focus:outline-none font-bold"
                         />
                       </div>
 
                       {/* Reminder Toggle */}
                       <button
                         onClick={() => toggleReminder(slot.id)}
-                        className={`flex items-center space-x-1 px-2 py-0.5 rounded border transition ${
+                        className={`flex items-center space-x-1 px-2.5 py-0.5 rounded-lg border transition text-xs font-bold ${
                           slot.reminderEnabled
-                            ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400'
-                            : 'bg-zinc-950 border-zinc-800 text-zinc-500 hover:text-zinc-300'
+                            ? 'bg-emerald-100 dark:bg-emerald-950/60 border-emerald-300 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300'
+                            : 'bg-slate-100 dark:bg-[#071510] border-slate-200 dark:border-emerald-900/40 text-slate-400 dark:text-emerald-300/60'
                         }`}
                         title={slot.reminderEnabled ? 'Reminder is ON for this meal' : 'Reminder is OFF'}
                       >
                         {slot.reminderEnabled ? (
                           <>
-                            <Bell className="w-3 h-3" />
+                            <Bell className="w-3 h-3 text-emerald-600 dark:text-emerald-400" />
                             <span>Reminder On</span>
                           </>
                         ) : (
@@ -334,15 +334,15 @@ export const DietSection: React.FC<DietSectionProps> = ({
                 {/* Right: Macros & Action */}
                 <div className="flex items-center space-x-4">
                   <div className="text-right">
-                    <p className="text-base font-black text-white">{slotCalories} <span className="text-xs font-normal text-zinc-400">kcal</span></p>
-                    <p className="text-xs text-zinc-400">
-                      P: <strong className="text-emerald-400">{slotProtein}g</strong> • C: <strong className="text-amber-400">{slotCarbs}g</strong> • F: <strong className="text-indigo-400">{slotFat}g</strong>
+                    <p className="text-base font-extrabold">{slotCalories} <span className="text-xs font-normal text-slate-400">kcal</span></p>
+                    <p className="text-xs text-slate-500 dark:text-emerald-300/60">
+                      P: <strong className="text-emerald-600 dark:text-emerald-400">{slotProtein}g</strong> • C: <strong className="text-amber-500">{slotCarbs}g</strong> • F: <strong className="text-cyan-500">{slotFat}g</strong>
                     </p>
                   </div>
 
                   <button
                     onClick={() => setActiveSlotModalId(slot.id)}
-                    className="flex items-center space-x-1 px-3 py-1.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs font-semibold border border-zinc-700 transition"
+                    className="flex items-center space-x-1 px-3 py-1.5 rounded-xl bg-emerald-50 dark:bg-[#071510] hover:bg-emerald-100 text-emerald-800 dark:text-emerald-200 text-xs font-bold border border-emerald-200 dark:border-emerald-800/60 transition shadow-xs"
                   >
                     <Plus className="w-3.5 h-3.5" />
                     <span>Add Food</span>
@@ -352,24 +352,24 @@ export const DietSection: React.FC<DietSectionProps> = ({
 
               {/* Meal Items Breakdown */}
               {slot.items.length > 0 && (
-                <div className="px-5 pb-4 pt-1 border-t border-zinc-800/60 bg-zinc-950/30">
+                <div className="px-5 pb-4 pt-1 border-t border-slate-100 dark:border-emerald-900/40 bg-slate-50/60 dark:bg-[#071510]/40">
                   <div className="space-y-1.5 mt-2">
                     {slot.items.map((item, idx) => (
                       <div
                         key={idx}
-                        className="flex items-center justify-between text-xs py-1 px-2.5 rounded-lg bg-zinc-900/60 border border-zinc-800/50 hover:border-zinc-700 transition"
+                        className="flex items-center justify-between text-xs py-1.5 px-3 rounded-xl bg-white dark:bg-[#0d221a] border border-slate-200 dark:border-emerald-900/40 transition shadow-xs"
                       >
                         <div className="flex items-center space-x-2">
-                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-                          <span className="font-medium text-zinc-200">{item.name}</span>
-                          <span className="text-zinc-500">({item.serving})</span>
+                          <span className="w-2 h-2 rounded-full bg-emerald-500" />
+                          <span className="font-bold text-slate-800 dark:text-emerald-100">{item.name}</span>
+                          <span className="text-slate-400 text-[11px]">({item.serving})</span>
                         </div>
                         <div className="flex items-center space-x-3">
-                          <span className="text-zinc-400">{Math.round(item.calories * (item.quantity || 1))} kcal</span>
-                          <span className="text-emerald-400 font-semibold">{Math.round(item.protein * (item.quantity || 1))}g P</span>
+                          <span className="font-semibold text-slate-600 dark:text-emerald-300/80">{Math.round(item.calories * (item.quantity || 1))} kcal</span>
+                          <span className="text-emerald-600 dark:text-emerald-400 font-extrabold">{Math.round(item.protein * (item.quantity || 1))}g P</span>
                           <button
                             onClick={() => handleRemoveFoodItem(slot.id, idx)}
-                            className="text-zinc-500 hover:text-rose-400 transition ml-1"
+                            className="text-slate-400 hover:text-rose-500 transition ml-1"
                           >
                             <Trash2 className="w-3.5 h-3.5" />
                           </button>
@@ -386,16 +386,16 @@ export const DietSection: React.FC<DietSectionProps> = ({
 
       {/* Add Food Modal */}
       {activeSlotModalId && (
-        <div className="fixed inset-0 z-50 bg-zinc-950/80 backdrop-blur-md flex items-center justify-center p-4">
-          <div className="bg-zinc-900 border border-zinc-700 rounded-3xl max-w-2xl w-full p-6 shadow-2xl flex flex-col max-h-[85vh]">
-            <div className="flex items-center justify-between pb-4 border-b border-zinc-800">
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-md flex items-center justify-center p-4">
+          <div className="bg-white dark:bg-[#0d221a] text-slate-900 dark:text-emerald-50 border border-emerald-100 dark:border-emerald-900/50 rounded-3xl max-w-2xl w-full p-6 shadow-2xl flex flex-col max-h-[85vh]">
+            <div className="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-emerald-900/40">
               <div>
-                <span className="text-xs font-bold text-emerald-400 uppercase tracking-wider">Nutrition Database</span>
-                <h3 className="text-xl font-bold text-white">Add Food to Meal</h3>
+                <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">Nutrition Database</span>
+                <h3 className="text-xl font-black">Add Food to Meal</h3>
               </div>
               <button
                 onClick={() => setActiveSlotModalId(null)}
-                className="text-zinc-400 hover:text-white"
+                className="p-1 rounded-xl text-slate-400 hover:text-slate-700 dark:hover:text-white"
               >
                 ✕
               </button>
@@ -404,13 +404,13 @@ export const DietSection: React.FC<DietSectionProps> = ({
             {/* Food Search Bar */}
             <div className="py-4 space-y-3">
               <div className="relative">
-                <Search className="w-4 h-4 absolute left-3 top-3 text-zinc-400" />
+                <Search className="w-4 h-4 absolute left-3 top-3 text-slate-400" />
                 <input
                   type="text"
                   placeholder="Search chicken breast, eggs, whey, oats, rice, salmon..."
                   value={foodSearchTerm}
                   onChange={(e) => setFoodSearchTerm(e.target.value)}
-                  className="w-full bg-zinc-950 border border-zinc-700 rounded-xl pl-9 pr-4 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500"
+                  className="w-full bg-slate-50 dark:bg-[#071510] border border-slate-200 dark:border-emerald-900/60 rounded-xl pl-9 pr-4 py-2.5 text-sm text-slate-900 dark:text-white focus:outline-none focus:border-emerald-500 font-medium"
                 />
               </div>
 
@@ -420,10 +420,10 @@ export const DietSection: React.FC<DietSectionProps> = ({
                   <button
                     key={cat}
                     onClick={() => setSelectedCategory(cat)}
-                    className={`px-3 py-1 rounded-lg capitalize font-medium ${
+                    className={`px-3 py-1 rounded-lg capitalize font-bold transition ${
                       selectedCategory === cat
-                        ? 'bg-emerald-500 text-zinc-950 font-bold'
-                        : 'bg-zinc-800 text-zinc-400 hover:bg-zinc-700'
+                        ? 'bg-emerald-600 text-white shadow-xs'
+                        : 'bg-slate-100 dark:bg-[#071510] text-slate-600 dark:text-emerald-300 hover:bg-slate-200'
                     }`}
                   >
                     {cat}
@@ -437,13 +437,13 @@ export const DietSection: React.FC<DietSectionProps> = ({
               {filteredFoods.map((f) => (
                 <div
                   key={f.id}
-                  className="p-3 bg-zinc-950/70 border border-zinc-800 rounded-xl flex items-center justify-between hover:border-zinc-700 transition"
+                  className="p-3 bg-slate-50 dark:bg-[#071510] border border-slate-200 dark:border-emerald-900/40 rounded-2xl flex items-center justify-between hover:border-emerald-300 transition"
                 >
                   <div>
-                    <h5 className="font-semibold text-white text-sm">{f.name}</h5>
-                    <p className="text-xs text-zinc-400">{f.servingSize} • {f.calories} kcal</p>
-                    <p className="text-[11px] text-zinc-500 mt-0.5">
-                      P: <span className="text-emerald-400 font-semibold">{f.protein}g</span> | C: {f.carbs}g | F: {f.fat}g
+                    <h5 className="font-bold text-slate-900 dark:text-emerald-50 text-sm">{f.name}</h5>
+                    <p className="text-xs text-slate-500 dark:text-emerald-300/70">{f.servingSize} • {f.calories} kcal</p>
+                    <p className="text-[11px] text-slate-400 dark:text-emerald-400/60 mt-0.5 font-medium">
+                      P: <span className="text-emerald-600 dark:text-emerald-400 font-bold">{f.protein}g</span> | C: {f.carbs}g | F: {f.fat}g
                     </p>
                   </div>
                   <button
@@ -460,7 +460,7 @@ export const DietSection: React.FC<DietSectionProps> = ({
                       });
                       setActiveSlotModalId(null);
                     }}
-                    className="px-3 py-1.5 bg-emerald-500 hover:bg-emerald-400 text-zinc-950 text-xs font-bold rounded-lg shadow-md transition"
+                    className="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-xl shadow-xs transition"
                   >
                     + Add
                   </button>
@@ -469,29 +469,29 @@ export const DietSection: React.FC<DietSectionProps> = ({
             </div>
 
             {/* Custom Food Quick Add */}
-            <div className="mt-4 pt-4 border-t border-zinc-800">
-              <h5 className="text-xs font-bold text-zinc-400 uppercase tracking-wider mb-2">Or Add Custom Item</h5>
+            <div className="mt-4 pt-4 border-t border-slate-100 dark:border-emerald-900/40">
+              <h5 className="text-xs font-bold text-slate-500 dark:text-emerald-300/70 uppercase tracking-wider mb-2">Or Add Custom Item</h5>
               <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
                 <input
                   type="text"
                   placeholder="Food name"
                   value={customFood.name}
                   onChange={(e) => setCustomFood({ ...customFood, name: e.target.value })}
-                  className="bg-zinc-950 border border-zinc-800 rounded-lg px-2.5 py-1.5 text-xs text-white col-span-2"
+                  className="bg-slate-50 dark:bg-[#071510] border border-slate-200 dark:border-emerald-900/50 rounded-xl px-2.5 py-1.5 text-xs text-slate-900 dark:text-white col-span-2 font-medium"
                 />
                 <input
                   type="number"
                   placeholder="kcal"
                   value={customFood.calories || ''}
                   onChange={(e) => setCustomFood({ ...customFood, calories: parseFloat(e.target.value) || 0 })}
-                  className="bg-zinc-950 border border-zinc-800 rounded-lg px-2.5 py-1.5 text-xs text-white"
+                  className="bg-slate-50 dark:bg-[#071510] border border-slate-200 dark:border-emerald-900/50 rounded-xl px-2.5 py-1.5 text-xs text-slate-900 dark:text-white font-medium"
                 />
                 <input
                   type="number"
                   placeholder="Protein g"
                   value={customFood.protein || ''}
                   onChange={(e) => setCustomFood({ ...customFood, protein: parseFloat(e.target.value) || 0 })}
-                  className="bg-zinc-950 border border-zinc-800 rounded-lg px-2.5 py-1.5 text-xs text-white"
+                  className="bg-slate-50 dark:bg-[#071510] border border-slate-200 dark:border-emerald-900/50 rounded-xl px-2.5 py-1.5 text-xs text-slate-900 dark:text-white font-medium"
                 />
                 <button
                   disabled={!customFood.name}
@@ -508,7 +508,7 @@ export const DietSection: React.FC<DietSectionProps> = ({
                     setCustomFood({ name: '', serving: '1 serving', calories: 150, protein: 10, carbs: 15, fat: 5 });
                     setActiveSlotModalId(null);
                   }}
-                  className="bg-zinc-800 hover:bg-zinc-700 disabled:opacity-50 text-emerald-400 font-bold text-xs rounded-lg px-3 py-1.5 transition"
+                  className="bg-emerald-50 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 hover:bg-emerald-100 dark:hover:bg-emerald-900 disabled:opacity-50 font-bold text-xs rounded-xl px-3 py-1.5 border border-emerald-200 dark:border-emerald-800 transition"
                 >
                   Save Custom
                 </button>

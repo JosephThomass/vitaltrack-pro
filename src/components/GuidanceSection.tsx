@@ -54,38 +54,38 @@ export const GuidanceSection: React.FC<GuidanceSectionProps> = ({
   return (
     <div className="space-y-6">
       {/* Top Banner: Health Score & Goal Alignment */}
-      <div className={`bg-gradient-to-br ${getScoreColor(report.healthScore)} bg-slate-900 border rounded-3xl p-6 sm:p-8 shadow-2xl relative overflow-hidden`}>
+      <div className={`bg-gradient-to-br ${getScoreColor(report.healthScore)} bg-white dark:bg-[#0d221a] border border-emerald-200 dark:border-emerald-800/60 rounded-3xl p-6 sm:p-8 shadow-sm relative overflow-hidden`}>
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="space-y-2 text-center md:text-left">
-            <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-slate-950/60 border border-slate-700 text-xs font-bold uppercase tracking-wider text-emerald-400">
+            <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-950/80 border border-emerald-300 dark:border-emerald-700 text-xs font-bold uppercase tracking-wider text-emerald-800 dark:text-emerald-300">
               <Sparkles className="w-3.5 h-3.5" />
               <span>Smart Goal Analyzer & Coach</span>
             </div>
-            <h2 className="text-3xl font-extrabold text-white tracking-tight">
+            <h2 className="text-3xl font-black text-slate-900 dark:text-emerald-50 tracking-tight">
               {getTierLabel(report.healthScore)}
             </h2>
-            <p className="text-slate-300 text-sm max-w-xl">
+            <p className="text-slate-600 dark:text-emerald-200/90 text-sm max-w-xl font-medium">
               {goalDescriptions[profile.goal]}
             </p>
-            <div className="flex flex-wrap items-center justify-center md:justify-start gap-2 pt-1 text-xs">
-              <span className="px-2.5 py-1 rounded-lg bg-slate-950/70 border border-slate-800 text-slate-300">
-                Goal: <strong className="text-white capitalize">{profile.goal.replace('_', ' ')}</strong>
+            <div className="flex flex-wrap items-center justify-center md:justify-start gap-2 pt-1 text-xs font-medium">
+              <span className="px-3 py-1 rounded-xl bg-white dark:bg-[#071510] border border-slate-200 dark:border-emerald-900/50 text-slate-700 dark:text-emerald-200 shadow-xs">
+                Goal: <strong className="text-emerald-700 dark:text-emerald-300 capitalize">{profile.goal.replace('_', ' ')}</strong>
               </span>
-              <span className="px-2.5 py-1 rounded-lg bg-slate-950/70 border border-slate-800 text-slate-300">
-                Calorie Budget: <strong className="text-emerald-400">{targets.targetCalories} kcal</strong>
+              <span className="px-3 py-1 rounded-xl bg-white dark:bg-[#071510] border border-slate-200 dark:border-emerald-900/50 text-slate-700 dark:text-emerald-200 shadow-xs">
+                Calorie Budget: <strong className="text-emerald-700 dark:text-emerald-400">{targets.targetCalories} kcal</strong>
               </span>
-              <span className="px-2.5 py-1 rounded-lg bg-slate-950/70 border border-slate-800 text-slate-300">
-                Protein Target: <strong className="text-cyan-400">{targets.targetProteinGrams}g</strong>
+              <span className="px-3 py-1 rounded-xl bg-white dark:bg-[#071510] border border-slate-200 dark:border-emerald-900/50 text-slate-700 dark:text-emerald-200 shadow-xs">
+                Protein Target: <strong className="text-teal-700 dark:text-teal-400">{targets.targetProteinGrams}g</strong>
               </span>
             </div>
           </div>
 
           {/* Big Circular Score Gauge */}
-          <div className="relative w-36 h-36 rounded-full bg-slate-950/90 border-4 border-slate-800 flex flex-col items-center justify-center shadow-2xl shrink-0">
-            <span className="text-4xl font-black text-white">{report.healthScore}</span>
-            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Health Score</span>
+          <div className="relative w-36 h-36 rounded-full bg-white dark:bg-[#071510] border-4 border-emerald-500 dark:border-emerald-600 flex flex-col items-center justify-center shadow-lg shrink-0">
+            <span className="text-4xl font-black text-slate-900 dark:text-emerald-50">{report.healthScore}</span>
+            <span className="text-[10px] font-black text-slate-400 dark:text-emerald-400/80 uppercase tracking-wider">Health Score</span>
             <div 
-              className="absolute inset-0 rounded-full border-4 border-emerald-400 opacity-60 animate-pulse-ring pointer-events-none" 
+              className="absolute inset-0 rounded-full border-4 border-emerald-400 opacity-40 animate-pulse pointer-events-none" 
             />
           </div>
         </div>
@@ -96,14 +96,14 @@ export const GuidanceSection: React.FC<GuidanceSectionProps> = ({
         {/* Pillar 1: Calorie Balance */}
         <div 
           onClick={() => onNavigateTab('diet')}
-          className="bg-slate-900 border border-slate-800 hover:border-emerald-500/40 p-4 rounded-2xl cursor-pointer transition group"
+          className="bg-white dark:bg-[#0d221a] border border-emerald-100 dark:border-emerald-900/50 hover:border-emerald-400 p-4 rounded-2xl cursor-pointer transition shadow-xs group"
         >
           <div className="flex items-center justify-between mb-2">
-            <Utensils className="w-4 h-4 text-emerald-400" />
-            <span className="text-[11px] font-bold text-slate-400 uppercase">Calories</span>
+            <Utensils className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+            <span className="text-[11px] font-bold text-slate-400 dark:text-emerald-400/60 uppercase">Calories</span>
           </div>
-          <p className="text-lg font-black text-white capitalize">{report.calorieStatus.replace('_', ' ')}</p>
-          <p className="text-xs text-slate-500 mt-0.5">
+          <p className="text-lg font-black text-slate-900 dark:text-white capitalize">{report.calorieStatus.replace('_', ' ')}</p>
+          <p className="text-xs text-slate-500 dark:text-emerald-300/60 mt-0.5">
             {report.calorieDifference > 0 ? `+${report.calorieDifference} kcal` : `${report.calorieDifference} kcal`}
           </p>
         </div>
@@ -111,87 +111,87 @@ export const GuidanceSection: React.FC<GuidanceSectionProps> = ({
         {/* Pillar 2: Protein Adequacy */}
         <div 
           onClick={() => onNavigateTab('diet')}
-          className="bg-slate-900 border border-slate-800 hover:border-cyan-500/40 p-4 rounded-2xl cursor-pointer transition group"
+          className="bg-white dark:bg-[#0d221a] border border-emerald-100 dark:border-emerald-900/50 hover:border-teal-400 p-4 rounded-2xl cursor-pointer transition shadow-xs group"
         >
           <div className="flex items-center justify-between mb-2">
-            <Flame className="w-4 h-4 text-cyan-400" />
-            <span className="text-[11px] font-bold text-slate-400 uppercase">Protein</span>
+            <Flame className="w-4 h-4 text-teal-600 dark:text-teal-400" />
+            <span className="text-[11px] font-bold text-slate-400 dark:text-emerald-400/60 uppercase">Protein</span>
           </div>
-          <p className="text-lg font-black text-white">{report.proteinAdequacyPercent}%</p>
-          <p className="text-xs text-slate-500 mt-0.5">Target: {targets.targetProteinGrams}g</p>
+          <p className="text-lg font-black text-slate-900 dark:text-white">{report.proteinAdequacyPercent}%</p>
+          <p className="text-xs text-slate-500 dark:text-emerald-300/60 mt-0.5">Target: {targets.targetProteinGrams}g</p>
         </div>
 
         {/* Pillar 3: Hydration */}
         <div 
           onClick={() => onNavigateTab('water')}
-          className="bg-slate-900 border border-slate-800 hover:border-blue-500/40 p-4 rounded-2xl cursor-pointer transition group"
+          className="bg-white dark:bg-[#0d221a] border border-emerald-100 dark:border-emerald-900/50 hover:border-cyan-400 p-4 rounded-2xl cursor-pointer transition shadow-xs group"
         >
           <div className="flex items-center justify-between mb-2">
-            <Droplet className="w-4 h-4 text-blue-400" />
-            <span className="text-[11px] font-bold text-slate-400 uppercase">Water</span>
+            <Droplet className="w-4 h-4 text-cyan-600 dark:text-cyan-400" />
+            <span className="text-[11px] font-bold text-slate-400 dark:text-emerald-400/60 uppercase">Water</span>
           </div>
-          <p className="text-lg font-black text-white">{report.hydrationPercent}%</p>
-          <p className="text-xs text-slate-500 mt-0.5">Target: {targets.targetWaterMl}ml</p>
+          <p className="text-lg font-black text-slate-900 dark:text-white">{report.hydrationPercent}%</p>
+          <p className="text-xs text-slate-500 dark:text-emerald-300/60 mt-0.5">Target: {targets.targetWaterMl}ml</p>
         </div>
 
         {/* Pillar 4: Hair Loss & Meds */}
         <div 
           onClick={() => onNavigateTab('hair-meds')}
-          className="bg-slate-900 border border-slate-800 hover:border-purple-500/40 p-4 rounded-2xl cursor-pointer transition group"
+          className="bg-white dark:bg-[#0d221a] border border-emerald-100 dark:border-emerald-900/50 hover:border-purple-400 p-4 rounded-2xl cursor-pointer transition shadow-xs group"
         >
           <div className="flex items-center justify-between mb-2">
-            <ShieldCheck className="w-4 h-4 text-purple-400" />
-            <span className="text-[11px] font-bold text-slate-400 uppercase">Hair & Meds</span>
+            <ShieldCheck className="w-4 h-4 text-purple-600 dark:text-purple-400" />
+            <span className="text-[11px] font-bold text-slate-400 dark:text-emerald-400/60 uppercase">Hair & Meds</span>
           </div>
-          <p className="text-lg font-black text-white">{report.medicationAdherencePercent}%</p>
-          <p className="text-xs text-slate-500 mt-0.5">Adherence Rate</p>
+          <p className="text-lg font-black text-slate-900 dark:text-white">{report.medicationAdherencePercent}%</p>
+          <p className="text-xs text-slate-500 dark:text-emerald-300/60 mt-0.5">Adherence Rate</p>
         </div>
 
         {/* Pillar 5: Gym Workout */}
         <div 
           onClick={() => onNavigateTab('workouts')}
-          className="bg-slate-900 border border-slate-800 hover:border-amber-500/40 p-4 rounded-2xl cursor-pointer transition group col-span-2 sm:col-span-1"
+          className="bg-white dark:bg-[#0d221a] border border-emerald-100 dark:border-emerald-900/50 hover:border-amber-400 p-4 rounded-2xl cursor-pointer transition shadow-xs group col-span-2 sm:col-span-1"
         >
           <div className="flex items-center justify-between mb-2">
-            <Dumbbell className="w-4 h-4 text-amber-400" />
-            <span className="text-[11px] font-bold text-slate-400 uppercase">Workout</span>
+            <Dumbbell className="w-4 h-4 text-amber-500" />
+            <span className="text-[11px] font-bold text-slate-400 dark:text-emerald-400/60 uppercase">Workout</span>
           </div>
-          <p className="text-lg font-black text-white">
+          <p className="text-lg font-black text-slate-900 dark:text-white">
             {report.workoutCompleted ? 'Logged 🔥' : 'Pending'}
           </p>
-          <p className="text-xs text-slate-500 mt-0.5">{report.workoutCompleted ? 'Stimulus achieved' : 'Tap to start'}</p>
+          <p className="text-xs text-slate-500 dark:text-emerald-300/60 mt-0.5">{report.workoutCompleted ? 'Stimulus achieved' : 'Tap to start'}</p>
         </div>
       </div>
 
       {/* Actionable Today's Protocol Checklist */}
-      <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
-        <div className="flex items-center justify-between mb-4">
+      <div className="bg-white dark:bg-[#0d221a] border border-emerald-100 dark:border-emerald-900/50 rounded-3xl p-6 shadow-sm">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-4">
           <div className="flex items-center space-x-2">
-            <Target className="w-5 h-5 text-emerald-400" />
-            <h3 className="text-lg font-bold text-white">Coach Recommended Immediate Actions</h3>
+            <Target className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+            <h3 className="text-lg font-black text-slate-900 dark:text-emerald-50">Coach Recommended Immediate Actions</h3>
           </div>
-          <span className="text-xs text-slate-400">Complete these to achieve a 100% Health Score</span>
+          <span className="text-xs text-slate-500 dark:text-emerald-300/60 font-medium">Complete these to achieve a 100% Health Score</span>
         </div>
 
         <div className="space-y-2.5">
           {report.actionPlan.map((action, idx) => (
             <div
               key={idx}
-              className="flex items-start space-x-3 bg-slate-950/70 border border-slate-800/80 p-3.5 rounded-2xl"
+              className="flex items-start space-x-3 bg-slate-50 dark:bg-[#071510] border border-slate-200 dark:border-emerald-900/40 p-3.5 rounded-2xl"
             >
-              <div className="w-6 h-6 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">
+              <div className="w-6 h-6 rounded-xl bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/60 flex items-center justify-center font-black text-xs shrink-0 mt-0.5">
                 {idx + 1}
               </div>
-              <p className="text-sm text-slate-200 font-medium leading-relaxed">{action}</p>
+              <p className="text-sm text-slate-800 dark:text-emerald-100 font-medium leading-relaxed">{action}</p>
             </div>
           ))}
         </div>
       </div>
 
       {/* Detailed Coach Analysis Feed */}
-      <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 space-y-4">
-        <h3 className="text-lg font-bold text-white flex items-center space-x-2">
-          <Lightbulb className="w-5 h-5 text-amber-400" />
+      <div className="bg-white dark:bg-[#0d221a] border border-emerald-100 dark:border-emerald-900/50 rounded-3xl p-6 space-y-4 shadow-sm">
+        <h3 className="text-lg font-black text-slate-900 dark:text-emerald-50 flex items-center space-x-2">
+          <Lightbulb className="w-5 h-5 text-amber-500" />
           <span>Biometric & Regimen Analysis Feed</span>
         </h3>
 
@@ -205,28 +205,28 @@ export const GuidanceSection: React.FC<GuidanceSectionProps> = ({
                 key={idx}
                 className={`p-4 rounded-2xl border flex items-start space-x-3.5 transition ${
                   isSuccess
-                    ? 'bg-emerald-950/15 border-emerald-500/30 text-emerald-200'
+                    ? 'bg-emerald-50/60 dark:bg-emerald-950/20 border-emerald-200 dark:border-emerald-800/50 text-emerald-950 dark:text-emerald-200'
                     : isWarning
-                    ? 'bg-amber-950/15 border-amber-500/30 text-amber-200'
-                    : 'bg-indigo-950/15 border-indigo-500/30 text-indigo-200'
+                    ? 'bg-amber-50/60 dark:bg-amber-950/20 border-amber-200 dark:border-amber-800/50 text-amber-950 dark:text-amber-200'
+                    : 'bg-teal-50/60 dark:bg-teal-950/20 border-teal-200 dark:border-teal-800/50 text-teal-950 dark:text-teal-200'
                 }`}
               >
                 <div className="mt-0.5 shrink-0">
-                  {isSuccess && <CheckCircle2 className="w-5 h-5 text-emerald-400" />}
-                  {isWarning && <AlertTriangle className="w-5 h-5 text-amber-400" />}
-                  {!isSuccess && !isWarning && <Lightbulb className="w-5 h-5 text-indigo-400" />}
+                  {isSuccess && <CheckCircle2 className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />}
+                  {isWarning && <AlertTriangle className="w-5 h-5 text-amber-500" />}
+                  {!isSuccess && !isWarning && <Lightbulb className="w-5 h-5 text-teal-600 dark:text-teal-400" />}
                 </div>
 
                 <div>
                   <div className="flex items-center space-x-2 mb-1">
-                    <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-slate-950/60 border border-slate-800">
+                    <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-white dark:bg-[#071510] border border-slate-200 dark:border-emerald-900/50 shadow-xs">
                       {insight.category.replace('_', ' ')}
                     </span>
-                    <span className="text-xs font-semibold capitalize">
+                    <span className="text-xs font-bold capitalize">
                       {insight.type === 'success' ? 'Optimized' : insight.type === 'warning' ? 'Attention Needed' : 'Guidance Tip'}
                     </span>
                   </div>
-                  <p className="text-sm text-slate-200 leading-snug">{insight.message}</p>
+                  <p className="text-sm font-medium leading-snug">{insight.message}</p>
                 </div>
               </div>
             );
