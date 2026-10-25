@@ -33,6 +33,8 @@ import { analyzeDailyProgress } from './utils/guidanceEngine';
 import { AppNotification, notificationService } from './utils/notifications';
 import { soundManager } from './utils/audio';
 
+import { userDatabase, UserAccountData } from './utils/userDatabase';
+
 const STORAGE_KEYS = {
   PROFILE: 'vitaltrack_profile_v1',
   WORKOUTS: 'vitaltrack_workouts_v1',
@@ -74,33 +76,64 @@ export function App() {
   const [notifications, setNotifications] = useState<AppNotification[]>([]);
   const [notificationsEnabled, setNotificationsEnabled] = useState<boolean>(false);
 
-  // App Data State with LocalStorage fallbacks
+  // App Data State: Check userDatabase for active phone first
   const [profile, setProfile] = useState<UserProfile>(() => {
+    const curPhone = userDatabase.getCurrentPhone();
+    if (curPhone) {
+      const dbUser = userDatabase.getUser(curPhone);
+      if (dbUser?.profile) return dbUser.profile;
+    }
     const saved = localStorage.getItem(STORAGE_KEYS.PROFILE);
     return saved ? JSON.parse(saved) : DEFAULT_PROFILE;
   });
 
-  const [showOnboarding, setShowOnboarding] = useState<boolean>(!profile.isRegistered);
-
+  const [showOnboarding, setShowOnboarding] = useState<boolean>(() => {
+    const curPhone = userDatabase.getCurrentPhone();
+    if (curPhone) {
+      const dbUser = userDatabase.getUser(curPhone);
+      if (dbUser?.profile?.isRegistered) return false;
+    }
+    return !profile.isRegistered;
+  });
 
   const [routines] = useState<WorkoutRoutine[]>(DEFAULT_WORKOUT_ROUTINES);
 
   const [loggedWorkouts, setLoggedWorkouts] = useState<LoggedWorkout[]>(() => {
+    const curPhone = userDatabase.getCurrentPhone();
+    if (curPhone) {
+      const dbUser = userDatabase.getUser(curPhone);
+      if (dbUser?.loggedWorkouts) return dbUser.loggedWorkouts;
+    }
     const saved = localStorage.getItem(STORAGE_KEYS.LOGGED_WORKOUTS);
     return saved ? JSON.parse(saved) : [];
   });
 
   const [mealSlots, setMealSlots] = useState<MealSlot[]>(() => {
+    const curPhone = userDatabase.getCurrentPhone();
+    if (curPhone) {
+      const dbUser = userDatabase.getUser(curPhone);
+      if (dbUser?.mealSlots?.length) return dbUser.mealSlots;
+    }
     const saved = localStorage.getItem(STORAGE_KEYS.MEALS);
     return saved ? JSON.parse(saved) : DEFAULT_MEAL_SLOTS;
   });
 
   const [meds, setMeds] = useState<MedicineOrSupplement[]>(() => {
+    const curPhone = userDatabase.getCurrentPhone();
+    if (curPhone) {
+      const dbUser = userDatabase.getUser(curPhone);
+      if (dbUser?.meds?.length) return dbUser.meds;
+    }
     const saved = localStorage.getItem(STORAGE_KEYS.MEDS);
     return saved ? JSON.parse(saved) : DEFAULT_MEDICATIONS_AND_SUPPLEMENTS;
   });
 
   const [waterLogs, setWaterLogs] = useState<WaterLog[]>(() => {
+    const curPhone = userDatabase.getCurrentPhone();
+    if (curPhone) {
+      const dbUser = userDatabase.getUser(curPhone);
+      if (dbUser?.waterLogs) return dbUser.waterLogs;
+    }
     const saved = localStorage.getItem(STORAGE_KEYS.WATER);
     return saved ? JSON.parse(saved) : [
       { id: 'w-1', timestamp: '08:15', amountMl: 500 },
@@ -109,6 +142,11 @@ export function App() {
   });
 
   const [activities, setActivities] = useState<OtherActivity[]>(() => {
+    const curPhone = userDatabase.getCurrentPhone();
+    if (curPhone) {
+      const dbUser = userDatabase.getUser(curPhone);
+      if (dbUser?.activities) return dbUser.activities;
+    }
     const saved = localStorage.getItem(STORAGE_KEYS.ACTIVITIES);
     return saved ? JSON.parse(saved) : [];
   });
@@ -116,30 +154,48 @@ export function App() {
   // Track fired notification keys today to prevent repeating within the same minute
   const firedRemindersRef = useRef<Set<string>>(new Set());
 
-  // Save to LocalStorage
+  // Save to LocalStorage AND User Database automatically whenever state changes
   useEffect(() => {
     localStorage.setItem(STORAGE_KEYS.PROFILE, JSON.stringify(profile));
+    if (profile.phoneNumber) {
+      userDatabase.updateUserData(profile.phoneNumber, { profile });
+    }
   }, [profile]);
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEYS.LOGGED_WORKOUTS, JSON.stringify(loggedWorkouts));
-  }, [loggedWorkouts]);
+    if (profile.phoneNumber) {
+      userDatabase.updateUserData(profile.phoneNumber, { loggedWorkouts });
+    }
+  }, [loggedWorkouts, profile.phoneNumber]);
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEYS.MEALS, JSON.stringify(mealSlots));
-  }, [mealSlots]);
+    if (profile.phoneNumber) {
+      userDatabase.updateUserData(profile.phoneNumber, { mealSlots });
+    }
+  }, [mealSlots, profile.phoneNumber]);
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEYS.MEDS, JSON.stringify(meds));
-  }, [meds]);
+    if (profile.phoneNumber) {
+      userDatabase.updateUserData(profile.phoneNumber, { meds });
+    }
+  }, [meds, profile.phoneNumber]);
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEYS.WATER, JSON.stringify(waterLogs));
-  }, [waterLogs]);
+    if (profile.phoneNumber) {
+      userDatabase.updateUserData(profile.phoneNumber, { waterLogs });
+    }
+  }, [waterLogs, profile.phoneNumber]);
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEYS.ACTIVITIES, JSON.stringify(activities));
-  }, [activities]);
+    if (profile.phoneNumber) {
+      userDatabase.updateUserData(profile.phoneNumber, { activities });
+    }
+  }, [activities, profile.phoneNumber]);
 
   // Request browser notification permission
   const handleRequestNotifications = async () => {
@@ -261,12 +317,42 @@ export function App() {
     setLoggedWorkouts((prev) => [workout, ...prev]);
   };
 
-  const handleCompleteOnboarding = (newProfile: UserProfile) => {
+  const handleCompleteOnboarding = (newProfile: UserProfile, accountData?: UserAccountData) => {
     setProfile(newProfile);
     setShowOnboarding(false);
-    // Align meal slots around their preferred workout time!
-    const alignedMeals = generateMealsForWorkoutTime(newProfile.preferredWorkoutTime);
-    setMealSlots(alignedMeals);
+    if (accountData) {
+      if (accountData.mealSlots?.length) setMealSlots(accountData.mealSlots);
+      if (accountData.loggedWorkouts) setLoggedWorkouts(accountData.loggedWorkouts);
+      if (accountData.meds?.length) setMeds(accountData.meds);
+      if (accountData.waterLogs) setWaterLogs(accountData.waterLogs);
+      if (accountData.activities) setActivities(accountData.activities);
+    } else {
+      // Align meal slots around their preferred workout time!
+      const alignedMeals = generateMealsForWorkoutTime(newProfile.preferredWorkoutTime);
+      setMealSlots(alignedMeals);
+    }
+  };
+
+  const handleRestoreAccount = (accountData: UserAccountData) => {
+    setProfile(accountData.profile);
+    setMealSlots(accountData.mealSlots || DEFAULT_MEAL_SLOTS);
+    setLoggedWorkouts(accountData.loggedWorkouts || []);
+    setMeds(accountData.meds || DEFAULT_MEDICATIONS_AND_SUPPLEMENTS);
+    setWaterLogs(accountData.waterLogs || []);
+    setActivities(accountData.activities || []);
+    userDatabase.setCurrentPhone(accountData.phoneNumber);
+    setShowOnboarding(false);
+    triggerAppNotification(
+      `Welcome Back, ${accountData.profile.name}!`,
+      `Your account and active schedule have been restored.`,
+      'general'
+    );
+  };
+
+  const handleSwitchAccount = () => {
+    userDatabase.clearCurrentSession();
+    setShowProfileModal(false);
+    setShowOnboarding(true);
   };
 
   const handleToggleMeal = (slotId: string) => {
@@ -287,7 +373,7 @@ export function App() {
 
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col">
+    <div className="min-h-screen bg-[#09090b] text-zinc-100 flex flex-col antialiased selection:bg-emerald-500 selection:text-black">
       {/* Floating Notifications */}
       <NotificationBanner
         notifications={notifications}
@@ -305,6 +391,7 @@ export function App() {
         healthScore={report.healthScore}
         onOpenPhoneModal={() => setShowPhoneModal(true)}
         onOpenOnboarding={() => setShowOnboarding(true)}
+        onSwitchAccount={handleSwitchAccount}
       />
 
       {/* Main Content Area */}
@@ -324,6 +411,7 @@ export function App() {
             onToggleMeal={handleToggleMeal}
             onToggleMed={handleQuickToggleMed}
             onOpenOnboarding={() => setShowOnboarding(true)}
+            onSwitchAccount={handleSwitchAccount}
           />
         )}
 
@@ -386,6 +474,7 @@ export function App() {
           profile={profile}
           onSaveProfile={setProfile}
           onClose={() => setShowProfileModal(false)}
+          onSwitchAccount={handleSwitchAccount}
         />
       )}
 
@@ -400,14 +489,24 @@ export function App() {
       {showOnboarding && (
         <RegistrationAndOnboarding
           onComplete={handleCompleteOnboarding}
+          onRestoreAccount={handleRestoreAccount}
           initialProfile={profile}
+          onClose={profile.isRegistered ? () => setShowOnboarding(false) : undefined}
         />
       )}
 
 
-      {/* Footer */}
-      <footer className="border-t border-slate-900 bg-slate-950 py-6 text-center text-xs text-slate-500">
-        <p>VitalTrack Pro Daily Health Hub • Workout Form Guides, Calorie & Macro Engine, Hair Regrowth Protocol & Hydration</p>
+      {/* High-End Tech Footer */}
+      <footer className="border-t border-zinc-900 bg-zinc-950/80 py-6 text-center text-xs text-zinc-500">
+        <div className="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <div className="flex items-center space-x-2">
+            <span className="w-2 h-2 rounded-full bg-emerald-400" />
+            <span className="font-mono text-[11px] text-zinc-400">VitalTrack Pro Health Operating System</span>
+          </div>
+          <p className="text-[11px] text-zinc-500">
+            Workout Video Guidance • Dynamic Calorie & Macro Engine • Hair Loss DHT Regimen • Local Encrypted DB
+          </p>
+        </div>
       </footer>
     </div>
   );

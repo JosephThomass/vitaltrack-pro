@@ -218,7 +218,7 @@ export const WorkoutSection: React.FC<WorkoutSectionProps> = ({
   return (
     <div className="space-y-6">
       {/* Header & Routine Selector */}
-      <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl">
+      <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 shadow-xl">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <div className="flex items-center space-x-2 text-emerald-400 text-xs font-bold tracking-wider uppercase mb-1">
@@ -226,14 +226,14 @@ export const WorkoutSection: React.FC<WorkoutSectionProps> = ({
               <span>Gym Workout Assistant</span>
             </div>
             <h2 className="text-2xl font-bold text-white tracking-tight">{currentRoutine.title}</h2>
-            <p className="text-slate-400 text-sm mt-1 max-w-2xl">{currentRoutine.description}</p>
+            <p className="text-zinc-400 text-sm mt-1 max-w-2xl">{currentRoutine.description}</p>
           </div>
 
           <div className="flex items-center space-x-3">
             {!isSessionActive ? (
               <button
                 onClick={startWorkoutSession}
-                className="flex items-center space-x-2 px-5 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-slate-950 font-bold hover:from-emerald-400 hover:to-teal-400 shadow-lg shadow-emerald-500/25 transition-all transform hover:-translate-y-0.5"
+                className="flex items-center space-x-2 px-5 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-zinc-950 font-bold hover:from-emerald-400 hover:to-teal-400 shadow-lg shadow-emerald-500/25 transition-all transform hover:-tranzinc-y-0.5"
               >
                 <Play className="w-5 h-5 fill-current" />
                 <span>Start Gym Workout</span>
@@ -241,7 +241,7 @@ export const WorkoutSection: React.FC<WorkoutSectionProps> = ({
             ) : (
               <button
                 onClick={finishWorkoutSession}
-                className="flex items-center space-x-2 px-5 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 text-slate-950 font-bold hover:from-amber-400 hover:to-orange-400 shadow-lg shadow-amber-500/25 transition-all animate-pulse"
+                className="flex items-center space-x-2 px-5 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 text-zinc-950 font-bold hover:from-amber-400 hover:to-orange-400 shadow-lg shadow-amber-500/25 transition-all animate-pulse"
               >
                 <CheckCircle className="w-5 h-5" />
                 <span>Finish & Log ({formatSec(sessionDurationSec)})</span>
@@ -264,8 +264,8 @@ export const WorkoutSection: React.FC<WorkoutSectionProps> = ({
                 onClick={() => setLocationFilter(loc.id as typeof locationFilter)}
                 className={`px-3 py-1 rounded-lg text-xs font-bold transition ${
                   locationFilter === loc.id
-                    ? 'bg-emerald-500 text-slate-950'
-                    : 'bg-slate-950 text-slate-400 hover:text-white border border-slate-800'
+                    ? 'bg-emerald-500 text-zinc-950'
+                    : 'bg-zinc-950 text-zinc-400 hover:text-white border border-zinc-800'
                 }`}
               >
                 {loc.label}
@@ -287,8 +287,8 @@ export const WorkoutSection: React.FC<WorkoutSectionProps> = ({
                   onClick={() => setSelectedRoutineId(routine.id)}
                   className={`px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${
                     selectedRoutineId === routine.id
-                      ? 'bg-slate-800 text-emerald-400 border border-emerald-500/40 shadow-sm'
-                      : 'bg-slate-950/60 text-slate-400 border border-slate-800 hover:text-slate-200 hover:bg-slate-800/50'
+                      ? 'bg-zinc-800 text-emerald-400 border border-emerald-500/40 shadow-sm'
+                      : 'bg-zinc-950/60 text-zinc-400 border border-zinc-800 hover:text-zinc-200 hover:bg-zinc-800/50'
                   } ${isSessionActive ? 'opacity-50 cursor-not-allowed' : ''}`}
                 >
                   {routine.title.split('(')[0].trim()}
@@ -301,12 +301,12 @@ export const WorkoutSection: React.FC<WorkoutSectionProps> = ({
 
       {/* Floating Active Rest Timer Bar if active */}
       {isRestTimerRunning && (
-        <div className="fixed bottom-6 right-6 z-50 bg-slate-900 border-2 border-emerald-500/80 rounded-2xl p-4 shadow-2xl flex items-center space-x-4 animate-bounce duration-1000">
+        <div className="fixed bottom-6 right-6 z-50 bg-zinc-900 border-2 border-emerald-500/80 rounded-2xl p-4 shadow-2xl flex items-center space-x-4 animate-bounce duration-1000">
           <div className="w-12 h-12 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-lg border border-emerald-500/30">
             {restTimerSeconds}s
           </div>
           <div>
-            <div className="text-xs uppercase tracking-wider text-slate-400 font-semibold flex items-center space-x-1">
+            <div className="text-xs uppercase tracking-wider text-zinc-400 font-semibold flex items-center space-x-1">
               <Timer className="w-3.5 h-3.5 text-emerald-400" />
               <span>Rest Timer Active</span>
             </div>
@@ -315,7 +315,7 @@ export const WorkoutSection: React.FC<WorkoutSectionProps> = ({
           <div className="flex items-center space-x-1">
             <button
               onClick={() => setRestTimerSeconds((prev) => prev + 15)}
-              className="px-2 py-1 bg-slate-800 hover:bg-slate-700 text-xs text-slate-300 rounded font-medium"
+              className="px-2 py-1 bg-zinc-800 hover:bg-zinc-700 text-xs text-zinc-300 rounded font-medium"
             >
               +15s
             </button>
@@ -324,7 +324,7 @@ export const WorkoutSection: React.FC<WorkoutSectionProps> = ({
                 setIsRestTimerRunning(false);
                 setRestTimerSeconds(0);
               }}
-              className="p-1 hover:bg-slate-800 text-slate-400 hover:text-white rounded"
+              className="p-1 hover:bg-zinc-800 text-zinc-400 hover:text-white rounded"
             >
               <X className="w-4 h-4" />
             </button>
@@ -341,31 +341,31 @@ export const WorkoutSection: React.FC<WorkoutSectionProps> = ({
           return (
             <div
               key={exercise.id}
-              className={`bg-slate-900/90 border rounded-2xl transition-all ${
+              className={`bg-zinc-900/90 border rounded-2xl transition-all ${
                 isCompletedOverall
                   ? 'border-emerald-500/40 bg-emerald-950/10'
-                  : 'border-slate-800 hover:border-slate-700'
+                  : 'border-zinc-800 hover:border-zinc-700'
               }`}
             >
               {/* Exercise Header */}
-              <div className="p-5 flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800/60">
+              <div className="p-5 flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-zinc-800/60">
                 <div className="flex items-start space-x-3">
-                  <div className="w-8 h-8 rounded-lg bg-slate-800 text-slate-300 flex items-center justify-center font-bold text-sm shrink-0 mt-0.5">
+                  <div className="w-8 h-8 rounded-lg bg-zinc-800 text-zinc-300 flex items-center justify-center font-bold text-sm shrink-0 mt-0.5">
                     {index + 1}
                   </div>
                   <div>
                     <div className="flex flex-wrap items-center gap-2 mb-1">
                       <h3 className="text-lg font-bold text-white">{exercise.name}</h3>
-                      <span className="text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-slate-800 text-emerald-400 border border-slate-700">
+                      <span className="text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-zinc-800 text-emerald-400 border border-zinc-700">
                         {exercise.muscleGroup}
                       </span>
-                      <span className="text-[11px] text-slate-400 bg-slate-950 px-2 py-0.5 rounded-md border border-slate-800/80">
+                      <span className="text-[11px] text-zinc-400 bg-zinc-950 px-2 py-0.5 rounded-md border border-zinc-800/80">
                         {exercise.equipment}
                       </span>
                     </div>
-                    <div className="flex items-center space-x-4 text-xs text-slate-400">
-                      <span>Target: <strong className="text-slate-200">{exercise.defaultSets} sets × {exercise.defaultReps} reps</strong></span>
-                      <span>Rest: <strong className="text-slate-200">{exercise.restSeconds}s</strong></span>
+                    <div className="flex items-center space-x-4 text-xs text-zinc-400">
+                      <span>Target: <strong className="text-zinc-200">{exercise.defaultSets} sets × {exercise.defaultReps} reps</strong></span>
+                      <span>Rest: <strong className="text-zinc-200">{exercise.restSeconds}s</strong></span>
                     </div>
                   </div>
                 </div>
@@ -383,10 +383,10 @@ export const WorkoutSection: React.FC<WorkoutSectionProps> = ({
               </div>
 
               {/* Form cues & Common Mistakes Quick Preview */}
-              <div className="px-5 py-3.5 bg-slate-950/40 grid grid-cols-1 md:grid-cols-2 gap-3 text-xs border-b border-slate-800/60">
+              <div className="px-5 py-3.5 bg-zinc-950/40 grid grid-cols-1 md:grid-cols-2 gap-3 text-xs border-b border-zinc-800/60">
                 <div className="space-y-1">
                   <span className="font-semibold text-emerald-400 uppercase tracking-wider text-[10px]">Key Biomechanical Cues:</span>
-                  <ul className="list-disc list-inside text-slate-300 space-y-0.5">
+                  <ul className="list-disc list-inside text-zinc-300 space-y-0.5">
                     {exercise.formCues.slice(0, 2).map((cue, i) => (
                       <li key={i} className="truncate">{cue}</li>
                     ))}
@@ -394,7 +394,7 @@ export const WorkoutSection: React.FC<WorkoutSectionProps> = ({
                 </div>
                 <div className="space-y-1">
                   <span className="font-semibold text-rose-400 uppercase tracking-wider text-[10px]">Mistakes To Avoid:</span>
-                  <ul className="list-disc list-inside text-slate-400 space-y-0.5">
+                  <ul className="list-disc list-inside text-zinc-400 space-y-0.5">
                     {exercise.commonMistakes.slice(0, 2).map((m, i) => (
                       <li key={i} className="truncate">{m}</li>
                     ))}
@@ -405,7 +405,7 @@ export const WorkoutSection: React.FC<WorkoutSectionProps> = ({
               {/* Workout Set Tracker (Interactive during session) */}
               {isSessionActive && (
                 <div className="p-5 space-y-3">
-                  <div className="grid grid-cols-12 gap-2 text-xs font-bold text-slate-400 uppercase tracking-wider px-2">
+                  <div className="grid grid-cols-12 gap-2 text-xs font-bold text-zinc-400 uppercase tracking-wider px-2">
                     <div className="col-span-2">Set</div>
                     <div className="col-span-4">Weight (kg)</div>
                     <div className="col-span-4">Reps</div>
@@ -418,10 +418,10 @@ export const WorkoutSection: React.FC<WorkoutSectionProps> = ({
                       className={`grid grid-cols-12 gap-2 items-center p-2 rounded-xl transition-all ${
                         set.completed
                           ? 'bg-emerald-500/10 border border-emerald-500/20 text-emerald-300'
-                          : 'bg-slate-950/60 border border-slate-800'
+                          : 'bg-zinc-950/60 border border-zinc-800'
                       }`}
                     >
-                      <div className="col-span-2 font-bold text-sm text-slate-300 pl-1">
+                      <div className="col-span-2 font-bold text-sm text-zinc-300 pl-1">
                         #{setIdx + 1}
                       </div>
 
@@ -433,9 +433,9 @@ export const WorkoutSection: React.FC<WorkoutSectionProps> = ({
                             step="0.5"
                             value={set.weightKg}
                             onChange={(e) => handleSetFieldChange(exercise.id, setIdx, 'weightKg', parseFloat(e.target.value) || 0)}
-                            className="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-sm text-white focus:outline-none focus:border-emerald-500"
+                            className="w-full bg-zinc-900 border border-zinc-700 rounded-lg px-2.5 py-1.5 text-sm text-white focus:outline-none focus:border-emerald-500"
                           />
-                          <span className="text-xs text-slate-500 hidden sm:inline">kg</span>
+                          <span className="text-xs text-zinc-500 hidden sm:inline">kg</span>
                         </div>
                       </div>
 
@@ -445,7 +445,7 @@ export const WorkoutSection: React.FC<WorkoutSectionProps> = ({
                           min="1"
                           value={set.reps}
                           onChange={(e) => handleSetFieldChange(exercise.id, setIdx, 'reps', parseInt(e.target.value) || 0)}
-                          className="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-sm text-white focus:outline-none focus:border-emerald-500"
+                          className="w-full bg-zinc-900 border border-zinc-700 rounded-lg px-2.5 py-1.5 text-sm text-white focus:outline-none focus:border-emerald-500"
                         />
                       </div>
 
@@ -454,8 +454,8 @@ export const WorkoutSection: React.FC<WorkoutSectionProps> = ({
                           onClick={() => handleSetToggle(exercise.id, setIdx, exercise.restSeconds)}
                           className={`w-9 h-9 rounded-xl flex items-center justify-center transition-all ${
                             set.completed
-                              ? 'bg-emerald-500 text-slate-950 font-bold shadow-md shadow-emerald-500/30'
-                              : 'bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-white'
+                              ? 'bg-emerald-500 text-zinc-950 font-bold shadow-md shadow-emerald-500/30'
+                              : 'bg-zinc-800 text-zinc-400 hover:bg-zinc-700 hover:text-white'
                           }`}
                         >
                           <CheckCircle className="w-5 h-5" />
@@ -466,7 +466,7 @@ export const WorkoutSection: React.FC<WorkoutSectionProps> = ({
 
                   <button
                     onClick={() => addExtraSet(exercise.id)}
-                    className="flex items-center space-x-1.5 text-xs text-slate-400 hover:text-emerald-400 px-3 py-1.5 rounded-lg border border-dashed border-slate-800 hover:border-emerald-500/40 transition"
+                    className="flex items-center space-x-1.5 text-xs text-zinc-400 hover:text-emerald-400 px-3 py-1.5 rounded-lg border border-dashed border-zinc-800 hover:border-emerald-500/40 transition"
                   >
                     <Plus className="w-3.5 h-3.5" />
                     <span>Add Set</span>
@@ -480,17 +480,17 @@ export const WorkoutSection: React.FC<WorkoutSectionProps> = ({
 
       {/* Previous Logged Workouts History */}
       {loggedWorkouts.length > 0 && (
-        <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 mt-8">
+        <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 mt-8">
           <div className="flex items-center space-x-2 mb-4">
             <Award className="w-5 h-5 text-amber-400" />
             <h3 className="text-lg font-bold text-white">Recent Logged Sessions</h3>
           </div>
           <div className="space-y-3">
             {loggedWorkouts.slice(-3).reverse().map((w) => (
-              <div key={w.id} className="p-4 bg-slate-950/70 border border-slate-800 rounded-xl flex items-center justify-between">
+              <div key={w.id} className="p-4 bg-zinc-950/70 border border-zinc-800 rounded-xl flex items-center justify-between">
                 <div>
                   <h4 className="font-semibold text-white text-sm">{w.routineTitle}</h4>
-                  <div className="flex items-center space-x-3 text-xs text-slate-400 mt-1">
+                  <div className="flex items-center space-x-3 text-xs text-zinc-400 mt-1">
                     <span>{w.date} at {w.completedAt}</span>
                     <span>•</span>
                     <span>{w.durationMinutes} mins</span>
@@ -503,7 +503,7 @@ export const WorkoutSection: React.FC<WorkoutSectionProps> = ({
                     <Flame className="w-4 h-4 fill-current" />
                     <span>~{w.caloriesBurned} kcal</span>
                   </div>
-                  <span className="text-[11px] text-slate-500">Burned</span>
+                  <span className="text-[11px] text-zinc-500">Burned</span>
                 </div>
               </div>
             ))}
@@ -513,17 +513,17 @@ export const WorkoutSection: React.FC<WorkoutSectionProps> = ({
 
       {/* Video Modal with Embedded YouTube Video & Comprehensive Form Guide */}
       {videoModalExercise && (
-        <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
-          <div className="bg-slate-900 border border-slate-700 rounded-3xl max-w-3xl w-full overflow-hidden shadow-2xl flex flex-col max-h-[90vh]">
+        <div className="fixed inset-0 z-50 bg-zinc-950/80 backdrop-blur-md flex items-center justify-center p-4">
+          <div className="bg-zinc-900 border border-zinc-700 rounded-3xl max-w-3xl w-full overflow-hidden shadow-2xl flex flex-col max-h-[90vh]">
             {/* Modal Header */}
-            <div className="p-4 px-6 border-b border-slate-800 flex items-center justify-between">
+            <div className="p-4 px-6 border-b border-zinc-800 flex items-center justify-between">
               <div>
                 <span className="text-[11px] font-bold text-emerald-400 uppercase tracking-wider">Exercise Form & Video Guide</span>
                 <h3 className="text-xl font-bold text-white">{videoModalExercise.name}</h3>
               </div>
               <button
                 onClick={() => setVideoModalExercise(null)}
-                className="w-9 h-9 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center transition"
+                className="w-9 h-9 rounded-full bg-zinc-800 hover:bg-zinc-700 text-zinc-300 flex items-center justify-center transition"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -549,7 +549,7 @@ export const WorkoutSection: React.FC<WorkoutSectionProps> = ({
                 </h4>
                 <div className="space-y-2">
                   {videoModalExercise.formCues.map((cue, idx) => (
-                    <div key={idx} className="flex items-start space-x-2 text-sm text-slate-200 bg-slate-950/60 p-2.5 rounded-xl border border-slate-800">
+                    <div key={idx} className="flex items-start space-x-2 text-sm text-zinc-200 bg-zinc-950/60 p-2.5 rounded-xl border border-zinc-800">
                       <span className="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 text-xs flex items-center justify-center font-bold shrink-0 mt-0.5">
                         {idx + 1}
                       </span>
@@ -566,7 +566,7 @@ export const WorkoutSection: React.FC<WorkoutSectionProps> = ({
                 </h4>
                 <div className="space-y-2">
                   {videoModalExercise.commonMistakes.map((mistake, idx) => (
-                    <div key={idx} className="flex items-start space-x-2 text-sm text-slate-300 bg-rose-950/15 p-2.5 rounded-xl border border-rose-900/30">
+                    <div key={idx} className="flex items-start space-x-2 text-sm text-zinc-300 bg-rose-950/15 p-2.5 rounded-xl border border-rose-900/30">
                       <span className="w-1.5 h-1.5 rounded-full bg-rose-400 shrink-0 mt-2" />
                       <span>{mistake}</span>
                     </div>
@@ -576,10 +576,10 @@ export const WorkoutSection: React.FC<WorkoutSectionProps> = ({
             </div>
 
             {/* Modal Footer */}
-            <div className="p-4 px-6 bg-slate-950 border-t border-slate-800 flex justify-end">
+            <div className="p-4 px-6 bg-zinc-950 border-t border-zinc-800 flex justify-end">
               <button
                 onClick={() => setVideoModalExercise(null)}
-                className="px-5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-sm font-semibold transition"
+                className="px-5 py-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-white text-sm font-semibold transition"
               >
                 Close Video Guide
               </button>
