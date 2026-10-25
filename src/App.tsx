@@ -11,7 +11,10 @@ import { ProfileModal } from './components/ProfileModal';
 import { NotificationBanner } from './components/NotificationBanner';
 import { PhoneConnectModal } from './components/PhoneConnectModal';
 import { RegistrationAndOnboarding } from './components/RegistrationAndOnboarding';
+import { RegimenSection } from './components/RegimenSection';
 import { generateMealsForWorkoutTime } from './utils/bmiHelper';
+import confetti from 'canvas-confetti';
+
 
 import { 
   LoggedWorkout, 
@@ -266,6 +269,23 @@ export function App() {
     setMealSlots(alignedMeals);
   };
 
+  const handleToggleMeal = (slotId: string) => {
+    setMealSlots((prev) =>
+      prev.map((slot) => {
+        if (slot.id === slotId) {
+          const nextState = !slot.isCompleted;
+          if (nextState) {
+            soundManager.playChime('success');
+            confetti({ particleCount: 35, spread: 45, origin: { y: 0.7 } });
+          }
+          return { ...slot, isCompleted: nextState };
+        }
+        return slot;
+      })
+    );
+  };
+
+
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col">
       {/* Floating Notifications */}
@@ -299,10 +319,11 @@ export function App() {
             loggedWorkouts={loggedWorkouts}
             meds={meds}
             waterLogs={waterLogs}
-            activities={activities}
             onNavigateTab={setActiveTab}
             onQuickAddWater={handleQuickAddWater}
-            onQuickToggleMed={handleQuickToggleMed}
+            onToggleMeal={handleToggleMeal}
+            onToggleMed={handleQuickToggleMed}
+            onOpenOnboarding={() => setShowOnboarding(true)}
           />
         )}
 
@@ -316,7 +337,6 @@ export function App() {
           />
         )}
 
-
         {activeTab === 'diet' && (
           <DietSection
             mealSlots={mealSlots}
@@ -328,10 +348,14 @@ export function App() {
           />
         )}
 
-        {activeTab === 'hair-meds' && (
-          <MedicineSection
+        {(activeTab === 'regimen' || activeTab === 'hair-meds' || activeTab === 'guidance') && (
+          <RegimenSection
+            profile={profile}
+            targets={targets}
+            report={report}
             meds={meds}
-            onUpdateMeds={setMeds}
+            onToggleMed={handleQuickToggleMed}
+            onOpenProfile={() => setShowProfileModal(true)}
           />
         )}
 
@@ -353,16 +377,8 @@ export function App() {
             weightKg={profile.weightKg}
           />
         )}
-
-        {activeTab === 'guidance' && (
-          <GuidanceSection
-            report={report}
-            profile={profile}
-            targets={targets}
-            onNavigateTab={setActiveTab}
-          />
-        )}
       </main>
+
 
       {/* Profile Settings Modal */}
       {showProfileModal && (
